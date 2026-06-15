@@ -14,7 +14,7 @@
 
   const RATES = [1, 2, 3, 5, 8, 10];
   const INTERVALS = [10000, 20000, 30000, 60000, 120000];
-  const LANG_LABEL = { en: 'English', fr: 'Français' };
+  const LANG_LABEL = I18N.LANG_LABEL;
 
   function Settings({ cooldown, onCooldown, onConnect }) {
     const store = DATA.useStore();
@@ -51,7 +51,7 @@
           </div>
           <div className="wrf-fw-note" style={{ marginTop: 14 }}>
             {I('languages')}
-            <span>{t('Your choice is saved in this browser. New visitors start in their browser language (French or English).')}</span>
+            <span>{t('Your choice is saved in this browser. New visitors start in their browser language when supported.')}</span>
           </div>
         </Card>
 

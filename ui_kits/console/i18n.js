@@ -6,19 +6,29 @@
    Components re-render on language change by subscribing via WRF_I18N.useStore(). */
 (function () {
   const KEY = 'wrf-lang';
-  const SUPPORTED = ['en', 'fr'];
+  const SUPPORTED = ['en', 'fr', 'de', 'lb'];
+  // Endonyms shown in the language switcher (same in every UI language).
+  const LANG_LABEL = { en: 'English', fr: 'Français', de: 'Deutsch', lb: 'Lëtzebuergesch' };
 
   function detect() {
     try { const s = localStorage.getItem(KEY); if (s && SUPPORTED.indexOf(s) >= 0) return s; } catch (e) {}
-    try { const n = (navigator.language || navigator.userLanguage || 'en').toLowerCase(); if (n.indexOf('fr') === 0) return 'fr'; } catch (e) {}
+    try {
+      const n = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      const hit = SUPPORTED.find(function (l) { return l !== 'en' && n.indexOf(l) === 0; });
+      if (hit) return hit;
+    } catch (e) {}
     return 'en';
   }
   let lang = detect();
 
-  // ---- French dictionary (key = English source string) -------------------
-  // Filled by the build; English keys with no entry fall back to themselves.
-  const FR = window.__WRF_FR_DICT || {};
-  const DICTS = { fr: FR };
+  // ---- dictionaries (key = English source string) ------------------------
+  // Loaded from the i18n.<lang>.js files; English keys with no entry fall back
+  // to themselves, so partial coverage is always safe.
+  const DICTS = {
+    fr: window.__WRF_FR_DICT || {},
+    de: window.__WRF_DE_DICT || {},
+    lb: window.__WRF_LB_DICT || {},
+  };
 
   function format(str, vars) {
     if (!vars) return str;
@@ -60,5 +70,5 @@
 
   try { document.documentElement.setAttribute('lang', lang); } catch (e) {}
 
-  window.WRF_I18N = { t: t, tState: tState, getLang: getLang, setLang: setLang, toggle: toggle, subscribe: subscribe, useStore: useStore, SUPPORTED: SUPPORTED, STATE_KEYS: STATE_KEYS };
+  window.WRF_I18N = { t: t, tState: tState, getLang: getLang, setLang: setLang, toggle: toggle, subscribe: subscribe, useStore: useStore, SUPPORTED: SUPPORTED, LANG_LABEL: LANG_LABEL, STATE_KEYS: STATE_KEYS };
 })();

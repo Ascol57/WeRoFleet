@@ -24,7 +24,7 @@ against a live Webex organization.
 - **Alerts** — severity-ranked queue with acknowledge / resolve.
 - **Settings** — language, Webex API rate limit, polling cadence, connection.
 - **Live Webex integration** — connect with a personal/integration bearer token; demo mode otherwise.
-- **Bilingual (FR / EN)** — auto-detects the browser language, switch any time from the top bar or Settings, choice is remembered.
+- **Multilingual (EN · FR · DE · LB)** — English, French, German, and Luxembourgish; auto-detects the browser language, switch any time from the top bar or Settings, choice is remembered.
 - **Light & dark themes**, first-class peers.
 - **Offline single-file build** — everything (React, icons, fonts, app) inlined; no network needed except the Webex API itself.
 
@@ -89,7 +89,7 @@ components/               React DS primitives (Button, StatusBadge, Input, …).
 guidelines/               Token specimen cards.
 assets/                   WeRoFleet logo + mark (SVG).
 ui_kits/console/          The Fleet Console app (views, data, Webex client, i18n).
-  ├─ i18n.js / i18n.fr.js   i18n runtime + French dictionary.
+  ├─ i18n.js                i18n runtime; i18n.{fr,de,lb}.js dictionaries.
   ├─ *.view.jsx             screens (overview, devices, workspaces, …).
   ├─ webex.js / data.js     Webex API client + reactive store.
   └─ proxy/                 optional local CORS proxy launchers.
@@ -101,10 +101,14 @@ _ds_bundle.js, _ds_manifest.json   Generated design-system bundle (do not edit).
 ## Internationalization
 
 UI strings are wrapped in a small `t()` helper using the English text as the
-key; French translations live in `ui_kits/console/i18n.fr.js`. The language
-auto-detects from the browser (French → `fr`, otherwise `en`), can be switched
-from the top bar or Settings, and is persisted per browser. Missing keys fall
-back to English, so partial coverage is always safe.
+key. Translations live in `ui_kits/console/i18n.<lang>.js` — currently
+**French (`fr`), German (`de`), and Luxembourgish (`lb`)**, with English as the
+source/default. The language auto-detects from the browser (e.g. `fr-*` → `fr`,
+`de-*` → `de`, `lb` → `lb`, otherwise `en`), can be switched from the top bar or
+Settings, and is persisted per browser. Missing keys fall back to English, so
+partial coverage is always safe. To add a language, drop in a new
+`i18n.<lang>.js` setting `window.__WRF_<LANG>_DICT` and add it to `SUPPORTED`
+in `i18n.js`.
 
 ## Design system
 

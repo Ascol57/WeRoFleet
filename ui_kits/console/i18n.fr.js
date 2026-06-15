@@ -403,7 +403,7 @@ window.__WRF_FR_DICT = {
   // ---- settings ----
   'Language, Webex API throughput, polling & connection': 'Langue, débit de l’API Webex, sondage et connexion',
   'Interface language for this browser': 'Langue de l’interface pour ce navigateur',
-  'Your choice is saved in this browser. New visitors start in their browser language (French or English).': 'Votre choix est enregistré dans ce navigateur. Les nouveaux visiteurs démarrent dans la langue de leur navigateur (français ou anglais).',
+  'Your choice is saved in this browser. New visitors start in their browser language when supported.': 'Votre choix est enregistré dans ce navigateur. Les nouveaux visiteurs démarrent dans la langue de leur navigateur si elle est prise en charge.',
   'Webex API rate limit': 'Limite de débit de l’API Webex',
   'Maximum requests per second across the whole console': 'Nombre maximal de requêtes par seconde pour toute la console',
   'Throttled · {eff}/{rate}/s': 'Limité · {eff}/{rate}/s',

@@ -119,7 +119,7 @@
       I18N.SUPPORTED.map((l) => React.createElement('button', {
         key: l, type: 'button', 'data-on': lang === l ? 'true' : undefined,
         'aria-pressed': lang === l, onClick: () => I18N.setLang(l),
-        title: l === 'fr' ? t('Français') : t('English'),
+        title: I18N.LANG_LABEL[l],
       }, l.toUpperCase())));
   }
 
