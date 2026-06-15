@@ -1,0 +1,93 @@
+<!-- @dsCard group="Components" viewport="700x470" name="Core" subtitle="Button · IconButton · Badge · StatusBadge · Tag · Avatar · MetricStat · Card" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); color: var(--text-primary); padding: 22px; }
+  .grp { margin-bottom: 20px; }
+  .glabel { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 10px; }
+  .rowf { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .panel { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Button, IconButton, Badge, StatusBadge, Tag, Avatar, MetricStat, Card } = window.HelmRoomKitFleetDS_91f16f;
+    const I = (n) => <i data-lucide={n}></i>;
+
+    function Demo() {
+      React.useEffect(() => { window.lucide && window.lucide.createIcons(); });
+      return (
+        <div>
+          <div className="grp">
+            <div className="glabel">Button — variant · size · icon · disabled</div>
+            <div className="rowf">
+              <Button variant="primary" leadingIcon={I('upload-cloud')}>Deploy update</Button>
+              <Button variant="secondary" leadingIcon={I('rotate-cw')}>Reboot</Button>
+              <Button variant="ghost">Cancel</Button>
+              <Button variant="danger" leadingIcon={I('trash-2')}>Remove</Button>
+              <Button variant="primary" size="sm">Small</Button>
+              <Button variant="secondary" disabled>Disabled</Button>
+            </div>
+          </div>
+
+          <div className="grp">
+            <div className="glabel">IconButton</div>
+            <div className="rowf">
+              <IconButton variant="ghost" icon={I('more-horizontal')} label="More" />
+              <IconButton variant="outline" icon={I('rotate-cw')} label="Reboot" />
+              <IconButton variant="solid" icon={I('plus')} label="Add" />
+              <IconButton variant="danger" icon={I('power')} label="Power" />
+            </div>
+          </div>
+
+          <div className="grp">
+            <div className="glabel">Badge · StatusBadge · Tag</div>
+            <div className="rowf">
+              <Badge tone="accent">RoomOS 11.21</Badge>
+              <Badge tone="critical" shape="pill">7</Badge>
+              <Badge tone="neutral" outline>NEW</Badge>
+              <StatusBadge state="online" />
+              <StatusBadge state="incall" />
+              <StatusBadge state="critical" />
+              <StatusBadge state="offline" />
+              <Tag dotColor="var(--teal-500)">Building C · Fl 3</Tag>
+              <Tag selected>Online only</Tag>
+            </div>
+          </div>
+
+          <div className="grp">
+            <div className="glabel">Avatar</div>
+            <div className="rowf">
+              <Avatar name="Priya Anand" />
+              <Avatar name="Marcus Lee" statusColor="var(--status-online)" />
+              <Avatar name="Dana Cole" size="lg" />
+              <Avatar kind="device" name="Boardroom A" />
+              <Avatar kind="device" name="Huddle 2" size="lg" />
+            </div>
+          </div>
+
+          <div className="grp">
+            <div className="glabel">MetricStat · Card</div>
+            <div className="metrics">
+              <div className="panel"><MetricStat label="Online" value="1,184" unit="/ 1,240" delta="+12" trend="up" footnote="vs. yesterday" /></div>
+              <div className="panel"><MetricStat label="In call now" value="318" icon={I('video')} /></div>
+              <div className="panel"><MetricStat label="Critical" value="7" delta="-3" trend="down" footnote="2 new" /></div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

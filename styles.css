@@ -1,0 +1,12 @@
+/* ============================================================
+   WEROFLEET — Design System
+   Room Kit Fleet Management Console
+   Root entry point. Consumers link THIS file only.
+   Keep this file as @import lines ONLY — no rules.
+   ============================================================ */
+
+@import url('./tokens/fonts.css');
+@import url('./tokens/colors.css');
+@import url('./tokens/typography.css');
+@import url('./tokens/spacing.css');
+@import url('./tokens/elevation.css');

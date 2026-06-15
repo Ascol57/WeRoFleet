@@ -1,0 +1,142 @@
+<!-- @dsCard group="Console" viewport="1320x860" name="Fleet Console" subtitle="Webex console — dashboard, devices, workspaces + preset deployment" -->
+<!-- @startingPoint section="Console" subtitle="Webex fleet console — connect, browse workspaces, apply config presets" viewport="1320x860" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>WeRoFleet Console</title>
+<link rel="stylesheet" href="../../styles.css" />
+<link rel="stylesheet" href="console.css" />
+<meta name="ext-resource-dependency" content="../../assets/werofleet-mark.svg" data-resource-id="mark" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js" integrity="sha384-xxUH8dZ+9qK6wOz3bNViyhHSIuVBQT5jsFlZAowZsRzRDsEqGjLGMJ/Wg10MPC3H" crossorigin="anonymous"></script>
+<!-- i18n must load before any console script that reads window.WRF_I18N (data.js, webex.js, …).
+     defer keeps document order while letting the parser run unblocked. -->
+<script defer src="i18n.fr.js"></script>
+<script defer src="i18n.js"></script>
+<script defer src="../../_ds_bundle.js"></script>
+<style>
+  /* Responsive-ready base: border-box everywhere, no mobile font inflation, no tap flash. */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; background: var(--surface-app); overflow: hidden;
+    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* dvh tracks the *dynamic* mobile viewport (URL bar show/hide); 100vh is the fallback. */
+  #root { height: 100vh; height: 100dvh; }
+
+  /* First-run splash overlay (matches the bundler thumbnail for a seamless handoff) */
+  #wrf-splash {
+    position: fixed; inset: 0; z-index: 99999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+    background: #0E7C86; opacity: 1; transition: opacity .55s ease;
+  }
+  #wrf-splash.wrf-splash-hide { opacity: 0; pointer-events: none; }
+  #wrf-splash .wrf-splash-mark { animation: wrf-splash-pop .6s cubic-bezier(.2,1.2,.4,1) both; }
+  #wrf-splash .wrf-splash-word {
+    font: 600 25px/1 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.01em; color: #E6F4F5;
+    animation: wrf-splash-fade .6s ease .12s both;
+  }
+  #wrf-splash .wrf-splash-word span { font-weight: 500; opacity: .62; }
+  #wrf-splash .wrf-splash-bar {
+    width: 150px; height: 3px; border-radius: 3px;
+    background: rgba(230,244,245,.22); overflow: hidden;
+    animation: wrf-splash-fade .6s ease .2s both;
+  }
+  #wrf-splash .wrf-splash-bar > span {
+    display: block; width: 42%; height: 100%; border-radius: 3px; background: #E6F4F5;
+    animation: wrf-splash-load 1.15s ease-in-out infinite;
+  }
+  @keyframes wrf-splash-load { 0% { transform: translateX(-110%); } 100% { transform: translateX(260%); } }
+  @keyframes wrf-splash-pop { from { opacity: 0; transform: scale(.86); } to { opacity: 1; transform: scale(1); } }
+  @keyframes wrf-splash-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    #wrf-splash .wrf-splash-mark, #wrf-splash .wrf-splash-word, #wrf-splash .wrf-splash-bar { animation: none; }
+    #wrf-splash .wrf-splash-bar > span { animation: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+  <!-- Single source of truth for the WeRoFleet camera mark. Both the bundler
+       thumbnail and the splash <use> this symbol — edit the logo in one place. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <symbol id="wrf-mark" viewBox="0 0 120 120">
+      <g fill="none" stroke="#E6F4F5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="32" y="50" width="56" height="40" rx="6"/>
+        <path d="M60 90 L60 100"/>
+        <path d="M47 103 L73 103"/>
+      </g>
+      <circle cx="60" cy="41" r="4.5" fill="#E6F4F5"/>
+      <path d="M49 41 a11 11 0 0 1 22 0" fill="none" stroke="#BFE6E8" stroke-width="4" stroke-linecap="round"/>
+      <path d="M41 41 a19 19 0 0 1 38 0" fill="none" stroke="#7FCBD0" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+    </symbol>
+  </svg>
+  <template id="__bundler_thumbnail" data-bg-color="#0E7C86">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#0E7C86"/>
+      <use href="#wrf-mark" x="420" y="220" width="360" height="360"/>
+    </svg>
+  </template>
+  <div id="root"></div>
+  <noscript>
+    <div style="position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:#0E7C86;color:#E6F4F5;font:500 16px/1.5 'IBM Plex Sans',system-ui,-apple-system,sans-serif;">
+      <svg width="72" height="72" viewBox="0 0 120 120" aria-hidden="true"><use href="#wrf-mark"/></svg>
+      <strong style="font-weight:600;font-size:20px;">WeRoFleet Console</strong>
+      <p style="margin:0;max-width:32ch;opacity:.85;">Cette console nécessite JavaScript. Activez-le, puis rechargez la page.</p>
+    </div>
+  </noscript>
+  <div id="wrf-splash" role="status" aria-label="Loading WeRoFleet Console">
+    <svg class="wrf-splash-mark" width="104" height="104" viewBox="0 0 120 120" aria-hidden="true">
+      <use href="#wrf-mark"/>
+    </svg>
+    <div class="wrf-splash-word">WeRoFleet <span>Console</span></div>
+    <div class="wrf-splash-bar"><span></span></div>
+  </div>
+  <script>
+    (function () {
+      var splash = document.getElementById('wrf-splash');
+      if (!splash) return;
+      var firstUse = false;
+      try { firstUse = !localStorage.getItem('wrf-splashed'); localStorage.setItem('wrf-splashed', '1'); } catch (e) {}
+      window.__wrfSplashFirstUse = firstUse;
+      var start = Date.now();
+      // First run: a deliberate 5s minimum so the brand loading screen registers.
+      // Returning visits: no artificial floor — reveal the app the instant it's ready.
+      var MIN_MS = firstUse ? 5000 : 0;
+      var hidden = false;
+      function reallyHide() {
+        splash.classList.add('wrf-splash-hide');
+        setTimeout(function () { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 600);
+      }
+      window.__wrfHideSplash = function () {
+        if (hidden) return; hidden = true;
+        // Honor the per-visit minimum, deferring an early hide request.
+        setTimeout(reallyHide, Math.max(0, MIN_MS - (Date.now() - start)));
+      };
+      // Safety cap so the splash can never hang if the app fails to report readiness:
+      // generous on first run (waits for the first fleet sweep), tight on return visits.
+      setTimeout(window.__wrfHideSplash, firstUse ? 60000 : 8000);
+    })();
+  </script>
+  <script defer src="request-manager.js"></script>
+  <script defer src="data.js"></script>
+  <script defer src="webex.js"></script>
+  <script defer src="poller.js"></script>
+  <script defer src="presets.js"></script>
+  <script type="text/babel" src="shell.runtime.js"></script>
+  <script type="text/babel" src="overview.view.jsx"></script>
+  <script type="text/babel" src="devices.view.jsx"></script>
+  <script type="text/babel" src="alerts.view.jsx"></script>
+  <script type="text/babel" src="connect.view.jsx"></script>
+  <script type="text/babel" src="workspaces.view.jsx"></script>
+  <script type="text/babel" src="presets.view.jsx"></script>
+  <script type="text/babel" src="branding.view.jsx"></script>
+  <script type="text/babel" src="settings.view.jsx"></script>
+  <script type="text/babel" src="app.boot.jsx"></script>
+</body>
+</html>

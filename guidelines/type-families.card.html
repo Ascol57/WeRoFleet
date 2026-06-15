@@ -1,0 +1,37 @@
+<!-- @dsCard group="Type" viewport="700x250" name="Font families" subtitle="IBM Plex Sans · Sans Condensed · Mono" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 22px; }
+  .stack { display: flex; flex-direction: column; gap: 20px; }
+  .fam .tag { font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 7px; }
+  .fam .glyphs { font-size: 30px; line-height: 1.1; color: var(--text-primary); }
+  .fam .note { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; }
+  .sans { font-family: var(--font-sans); }
+  .cond { font-family: var(--font-condensed); }
+  .mono { font-family: var(--font-mono); letter-spacing: 0.01em; }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="fam">
+      <div class="tag">IBM Plex Sans — UI</div>
+      <div class="glyphs sans" style="font-weight:600">AaBbGg 0123 · Boardroom A</div>
+      <div class="note">Humanist grotesque · 400 / 500 / 600 / 700 · default for all interface text</div>
+    </div>
+    <div class="fam">
+      <div class="tag">IBM Plex Sans Condensed — table headers & compact metrics</div>
+      <div class="glyphs cond" style="font-weight:600">DEVICE · MODEL · UPTIME 0123456789</div>
+      <div class="note">Narrow set width packs column headers and tight KPI rows</div>
+    </div>
+    <div class="fam">
+      <div class="tag">IBM Plex Mono — telemetry, serials, IDs</div>
+      <div class="glyphs mono">FOC2530NX9K · 10.4.22.18</div>
+      <div class="note">Tabular by nature · serials, MAC/IP, versions, log lines</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!-- @dsCard group="Spacing" viewport="700x150" name="Motion" subtitle="Crisp, short, mostly-standard easing — hover this card" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .lane { background: var(--surface-sunken); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; overflow: hidden; }
+  .meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .dur { font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); }
+  .track { height: 12px; position: relative; }
+  .ball { position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+  body:hover .e1 { transform: translateX(150px); transition: transform 220ms cubic-bezier(0.2,0,0,1); }
+  body:hover .e2 { transform: translateX(150px); transition: transform 320ms cubic-bezier(0.3,0,0,1); }
+  body:hover .e3 { transform: translateX(150px); transition: transform 280ms cubic-bezier(0.2,1.2,0.4,1); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="lane"><div class="meta"><span class="name">Standard</span><span class="dur">220ms</span></div><div class="track"><span class="ball e1"></span></div></div>
+    <div class="lane"><div class="meta"><span class="name">Emphasized</span><span class="dur">320ms</span></div><div class="track"><span class="ball e2"></span></div></div>
+    <div class="lane"><div class="meta"><span class="name">Spring</span><span class="dur">small pops</span></div><div class="track"><span class="ball e3"></span></div></div>
+  </div>
+</body>
+</html>

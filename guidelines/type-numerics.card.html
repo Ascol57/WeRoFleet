@@ -1,0 +1,40 @@
+<!-- @dsCard group="Type" viewport="700x180" name="Tabular figures" subtitle="Tabular numerals keep metric columns aligned" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 20px; font-feature-settings: 'tnum' 1; }
+  .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .lbl { font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 5px 0; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-primary); font-weight: 600; }
+  td.k { color: var(--text-secondary); }
+  .mono td.n { font-family: var(--font-mono); font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <div class="lbl">Metric column · tnum</div>
+      <table>
+        <tr><td class="k">Online</td><td class="n">1,184</td></tr>
+        <tr><td class="k">In call</td><td class="n">318</td></tr>
+        <tr><td class="k">Degraded</td><td class="n">31</td></tr>
+        <tr><td class="k">Critical</td><td class="n">7</td></tr>
+      </table>
+    </div>
+    <div class="mono">
+      <div class="lbl">Telemetry · mono</div>
+      <table>
+        <tr><td class="k">Serial</td><td class="n">FOC2530NX9K</td></tr>
+        <tr><td class="k">IP</td><td class="n">10.4.22.18</td></tr>
+        <tr><td class="k">Uptime</td><td class="n">14d 06:22</td></tr>
+        <tr><td class="k">RoomOS</td><td class="n">11.21.1.6</td></tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

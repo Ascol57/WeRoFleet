@@ -1,0 +1,57 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Feedback" subtitle="Banner · ProgressBar · Tooltip" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); color: var(--text-primary); padding: 22px; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .glabel { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-tertiary); margin: 6px 0 2px; }
+  .panel { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .tiprow { display: flex; gap: 22px; align-items: center; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Banner, ProgressBar, Tooltip, Button, IconButton } = window.HelmRoomKitFleetDS_91f16f;
+    const I = (n) => <i data-lucide={n}></i>;
+    function Demo() {
+      React.useEffect(() => { window.lucide && window.lucide.createIcons(); });
+      return (
+        <div className="stack">
+          <div className="glabel">Banner</div>
+          <Banner tone="critical" title="7 devices offline in San Jose HQ"
+            actions={<Button size="sm" variant="secondary">View incident</Button>} onClose={()=>{}}>
+            Switch SJ-3F-SW2 stopped responding at 09:14.
+          </Banner>
+          <Banner tone="warning" title="RoomOS 11.21 rolls out tonight, 22:00–02:00 PT" />
+          <Banner tone="success" title="Config pushed to 1,240 devices" />
+
+          <div className="glabel">ProgressBar</div>
+          <div className="panel">
+            <ProgressBar label="RoomOS 11.21 rollout" value={842} max={1240} showValue valueText="842 / 1,240" tone="online" />
+            <ProgressBar label="Disk usage · Boardroom A" value={88} showValue tone="degraded" />
+            <ProgressBar label="Pushing configuration…" indeterminate />
+          </div>
+
+          <div className="glabel">Tooltip</div>
+          <div className="panel">
+            <div className="tiprow">
+              <Tooltip label="Reboot device" kbd="R"><IconButton variant="outline" icon={I('rotate-cw')} label="Reboot" /></Tooltip>
+              <Tooltip label="Last seen 2 min ago" side="right"><span style={{fontSize:13,color:'var(--text-secondary)'}}>Hover →</span></Tooltip>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

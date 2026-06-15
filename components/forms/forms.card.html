@@ -1,0 +1,52 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Forms" subtitle="Input · Select · Checkbox · Radio · Switch" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); color: var(--text-primary); padding: 22px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .glabel { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 4px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Input, Select, Checkbox, Switch } = window.HelmRoomKitFleetDS_91f16f;
+    const I = (n) => <i data-lucide={n}></i>;
+    function Demo() {
+      React.useEffect(() => { window.lucide && window.lucide.createIcons(); });
+      return (
+        <div className="cols">
+          <div className="stack">
+            <div className="glabel">Input</div>
+            <Input label="Search devices" leadingIcon={I('search')} placeholder="Name, serial, room…" />
+            <Input label="Serial number" mono defaultValue="FOC2530NX9K" />
+            <Input label="Admin email" error="That address isn't recognized" defaultValue="bad@" />
+            <div className="glabel" style={{marginTop:6}}>Select</div>
+            <Select label="Site" options={['All sites','San Jose HQ','London','Sydney']} />
+          </div>
+          <div className="stack">
+            <div className="glabel">Checkbox / Radio</div>
+            <Checkbox label="Auto-install firmware" description="During the maintenance window" defaultChecked />
+            <Checkbox indeterminate label="Select page (mixed)" />
+            <Checkbox shape="radio" name="cad" label="Weekly cadence" defaultChecked />
+            <Checkbox shape="radio" name="cad" label="Monthly cadence" />
+            <div className="glabel" style={{marginTop:6}}>Switch</div>
+            <Switch label="Automatic firmware updates" defaultChecked />
+            <Switch size="sm" label="Show offline devices" />
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

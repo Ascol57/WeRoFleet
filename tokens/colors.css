@@ -1,0 +1,179 @@
+/* ============================================================
+   WEROFLEET — Color tokens
+   Room Kit Fleet Management Console
+   Cool-slate neutrals · teal primary · operational status hues
+   ============================================================ */
+
+:root {
+  /* ---- Neutral slate ramp (cool, AV/IT operations) ---- */
+  --slate-50:  #F7F9FB;
+  --slate-100: #EEF2F6;
+  --slate-150: #E4EAF0;
+  --slate-200: #D6DEE6;
+  --slate-300: #B9C5D0;
+  --slate-400: #93A2B1;
+  --slate-500: #6B7A89;
+  --slate-600: #4E5B69;
+  --slate-700: #38444F;
+  --slate-800: #26313A;
+  --slate-900: #161D23;
+  --slate-950: #0B1015;
+
+  /* ---- Primary: teal (connected signal) ---- */
+  --teal-50:  #E6F4F5;
+  --teal-100: #C6E7E8;
+  --teal-200: #93D2D5;
+  --teal-300: #57B8BD;
+  --teal-400: #2A9CA3;
+  --teal-500: #0E7C86;
+  --teal-600: #0A6670;
+  --teal-700: #08515A;
+  --teal-800: #063F46;
+  --teal-900: #052E33;
+
+  /* ---- Status: operational semantics ---- */
+  /* Online / healthy */
+  --green-50:  #E7F5ED;
+  --green-100: #C5E9D3;
+  --green-400: #34A86A;
+  --green-500: #1E9E5A;
+  --green-600: #167F48;
+  --green-700: #0F6238;
+
+  /* In a call / active session */
+  --blue-50:  #E8F0FC;
+  --blue-100: #CDDFF8;
+  --blue-400: #4A7FE0;
+  --blue-500: #2563C9;
+  --blue-600: #1C4FA6;
+  --blue-700: #163E82;
+
+  /* Degraded / warning */
+  --amber-50:  #FBF1DF;
+  --amber-100: #F6E0B6;
+  --amber-400: #E0A92E;
+  --amber-500: #C8821A;
+  --amber-600: #A2680F;
+  --amber-700: #7C4F0B;
+
+  /* Critical / offline-error */
+  --red-50:  #FBEAE8;
+  --red-100: #F6CECA;
+  --red-400: #E0635A;
+  --red-500: #D1453B;
+  --red-600: #AC322A;
+  --red-700: #84251F;
+
+  /* Informational accent (data viz, secondary highlights) */
+  --violet-500: #6E56C4;
+  --violet-100: #E2DCF5;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in product, not raw ramps
+     ============================================================ */
+
+  /* Surfaces */
+  --surface-app:        var(--slate-100);   /* app canvas behind cards */
+  --surface-card:       #FFFFFF;            /* panels, cards, tables */
+  --surface-sunken:     var(--slate-50);    /* wells, inset rows */
+  --surface-raised:     #FFFFFF;            /* popovers, menus */
+  --surface-inverse:    var(--slate-900);   /* dark headers / nav */
+  --surface-hover:      var(--slate-100);   /* row & item hover */
+  --surface-active:     var(--slate-150);   /* pressed / selected bg */
+  --surface-disabled:   var(--slate-100);
+
+  /* Text */
+  --text-primary:   var(--slate-900);
+  --text-secondary: var(--slate-600);
+  --text-tertiary:  var(--slate-500);
+  --text-disabled:  var(--slate-400);
+  --text-inverse:   #FFFFFF;
+  --text-on-accent: #FFFFFF;
+  --text-link:      var(--teal-600);
+
+  /* Borders & dividers */
+  --border-subtle:  var(--slate-150);
+  --border-default: var(--slate-200);
+  --border-strong:  var(--slate-300);
+  --border-focus:   var(--teal-500);
+  --border-inverse: var(--slate-700);
+
+  /* Brand / primary action */
+  --accent:          var(--teal-500);
+  --accent-hover:    var(--teal-600);
+  --accent-active:   var(--teal-700);
+  --accent-subtle:   var(--teal-50);
+  --accent-on:       #FFFFFF;
+  --accent-ring:     color-mix(in srgb, var(--teal-500) 35%, transparent);
+
+  /* ---- Status semantic tokens (dot, badge, text, fill) ---- */
+  --status-online:        var(--green-500);
+  --status-online-bg:     var(--green-50);
+  --status-online-text:   var(--green-700);
+
+  --status-incall:        var(--blue-500);
+  --status-incall-bg:     var(--blue-50);
+  --status-incall-text:   var(--blue-700);
+
+  --status-degraded:      var(--amber-500);
+  --status-degraded-bg:   var(--amber-50);
+  --status-degraded-text: var(--amber-700);
+
+  --status-critical:      var(--red-500);
+  --status-critical-bg:   var(--red-50);
+  --status-critical-text: var(--red-700);
+
+  --status-offline:       var(--slate-400);
+  --status-offline-bg:    var(--slate-100);
+  --status-offline-text:  var(--slate-600);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px var(--accent-ring);
+
+  /* Scrim behind modals & drawers */
+  --scrim: color-mix(in srgb, var(--slate-900) 38%, transparent);
+}
+
+/* ============================================================
+   DARK THEME — NOC / dim operations rooms
+   Apply via [data-theme="dark"] on a container or <html>
+   ============================================================ */
+[data-theme="dark"] {
+  --surface-app:      var(--slate-950);
+  --surface-card:     var(--slate-900);
+  --surface-sunken:   #0E141A;
+  --surface-raised:   var(--slate-800);
+  --surface-inverse:  var(--slate-50);
+  --surface-hover:    var(--slate-800);
+  --surface-active:   var(--slate-700);
+  --surface-disabled: var(--slate-800);
+
+  --text-primary:   var(--slate-50);
+  --text-secondary: var(--slate-300);
+  --text-tertiary:  var(--slate-400);
+  --text-disabled:  var(--slate-600);
+  --text-inverse:   var(--slate-900);
+  --text-link:      var(--teal-300);
+
+  --border-subtle:  #1B232B;
+  --border-default: var(--slate-800);
+  --border-strong:  var(--slate-700);
+
+  --accent:        var(--teal-400);
+  --accent-hover:  var(--teal-300);
+  --accent-active: var(--teal-200);
+  --accent-subtle: #0E2A2D;
+
+  --status-online-bg:   #0E2A1C;
+  --status-online-text: var(--green-400);
+  --status-incall-bg:   #0F2447;
+  --status-incall-text: var(--blue-400);
+  --status-degraded-bg: #2E2410;
+  --status-degraded-text: var(--amber-400);
+  --status-critical-bg: #2E1310;
+  --status-critical-text: var(--red-400);
+  --status-offline-bg:  var(--slate-800);
+  --status-offline-text: var(--slate-300);
+
+  --scrim: color-mix(in srgb, #000 58%, transparent);
+}

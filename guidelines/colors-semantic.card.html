@@ -1,0 +1,45 @@
+<!-- @dsCard group="Colors" viewport="700x230" name="Semantic · Surfaces & text" subtitle="Light and dark themes share one set of semantic aliases" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); padding: 20px; background: #fff; }
+  .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pane { background: var(--surface-app); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 14px; }
+  .label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 10px; }
+  .card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); padding: 12px; }
+  .t1 { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .t2 { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .t3 { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+  .divline { height: 1px; background: var(--border-default); margin: 10px 0; }
+  .btn { display: inline-flex; height: 28px; align-items: center; padding: 0 12px; border-radius: var(--radius-sm); background: var(--accent); color: var(--accent-on); font-size: 12px; font-weight: 600; }
+  .link { color: var(--text-link); font-size: 12px; font-weight: 500; margin-left: 12px; }
+</style>
+</head>
+<body>
+  <div class="themes">
+    <div class="pane" data-theme="light">
+      <div class="label">Light · default</div>
+      <div class="card">
+        <div class="t1">Boardroom A · Room Kit Pro</div>
+        <div class="t2">San Jose HQ · Floor 3</div>
+        <div class="divline"></div>
+        <div class="t3">surface-card on surface-app</div>
+        <div style="margin-top:10px"><span class="btn">Manage</span><a class="link">View details</a></div>
+      </div>
+    </div>
+    <div class="pane" data-theme="dark">
+      <div class="label">Dark · NOC</div>
+      <div class="card">
+        <div class="t1">Boardroom A · Room Kit Pro</div>
+        <div class="t2">San Jose HQ · Floor 3</div>
+        <div class="divline"></div>
+        <div class="t3">surface-card on surface-app</div>
+        <div style="margin-top:10px"><span class="btn">Manage</span><a class="link">View details</a></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

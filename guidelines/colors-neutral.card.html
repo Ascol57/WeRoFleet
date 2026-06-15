@@ -1,0 +1,32 @@
+<!-- @dsCard group="Colors" viewport="700x190" name="Neutral · Slate ramp" subtitle="Cool-slate neutrals — app canvas, text, borders, chrome" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 20px; }
+  .row { display: flex; gap: 6px; }
+  .sw { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .chip { height: 56px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); }
+  .meta { display: flex; flex-direction: column; gap: 1px; }
+  .tok { font-size: 11px; font-weight: 600; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .hex { font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="row" id="row"></div>
+  <script>
+    const steps = [
+      ['50','#F7F9FB'],['100','#EEF2F6'],['150','#E4EAF0'],['200','#D6DEE6'],
+      ['300','#B9C5D0'],['400','#93A2B1'],['500','#6B7A89'],['600','#4E5B69'],
+      ['700','#38444F'],['800','#26313A'],['900','#161D23'],['950','#0B1015'],
+    ];
+    document.getElementById('row').innerHTML = steps.map(([s,h]) => `
+      <div class="sw">
+        <div class="chip" style="background:${h}"></div>
+        <div class="meta"><span class="tok">${s}</span><span class="hex">${h}</span></div>
+      </div>`).join('');
+  </script>
+</body>
+</html>

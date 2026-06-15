@@ -1,0 +1,43 @@
+<!-- @dsCard group="Colors" viewport="700x200" name="Status · Operational" subtitle="The five device states — dot, fill, and on-fill text" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .cell { display: flex; flex-direction: column; gap: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; height: 22px; padding: 0 9px 0 7px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .swrow { display: flex; gap: 4px; }
+  .mini { flex: 1; height: 26px; border-radius: var(--radius-xs); border: 1px solid var(--border-subtle); }
+  .name { font-size: 11px; font-weight: 600; color: var(--text-secondary); }
+  .tok { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+  <div class="grid" id="grid"></div>
+  <script>
+    const states = [
+      ['Online','online','--status-online','--status-online-bg','--status-online-text','--green-500'],
+      ['In call','incall','--status-incall','--status-incall-bg','--status-incall-text','--blue-500'],
+      ['Degraded','degraded','--status-degraded','--status-degraded-bg','--status-degraded-text','--amber-500'],
+      ['Critical','critical','--status-critical','--status-critical-bg','--status-critical-text','--red-500'],
+      ['Offline','offline','--status-offline','--status-offline-bg','--status-offline-text','--slate-400'],
+    ];
+    document.getElementById('grid').innerHTML = states.map(([label,key,dot,bg,text,base]) => `
+      <div class="cell">
+        <span class="pill" style="background:var(${bg});color:var(${text})">
+          <span class="dot" style="background:var(${dot})"></span>${label}
+        </span>
+        <div class="swrow">
+          <div class="mini" style="background:var(${dot})"></div>
+          <div class="mini" style="background:var(${bg})"></div>
+        </div>
+        <div class="name">${label}</div>
+        <div class="tok">${key}</div>
+      </div>`).join('');
+  </script>
+</body>
+</html>

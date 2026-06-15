@@ -1,0 +1,34 @@
+# ---- build output (regenerate with: node tools/build-bundle.mjs) ----
+/dist/
+*.bundle.html
+
+# ---- bundler download cache (CDN libs, fonts, Babel) ----
+/tools/.cache/
+
+# ---- local tooling / editor state ----
+.claude/settings.local.json
+.vscode/
+.idea/
+*.code-workspace
+
+# ---- dependencies (none committed; here for safety) ----
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# ---- logs & temp ----
+*.log
+npm-debug.log*
+*.tmp
+*.bak
+
+# ---- OS junk ----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini

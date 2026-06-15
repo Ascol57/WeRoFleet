@@ -1,0 +1,83 @@
+WeRoFleet Console — Non-Commercial Source-Available License
+Copyright (c) 2026 Constant Rusche. All rights reserved.
+
+This is a custom, source-available, NON-COMMERCIAL license. It is not an
+OSI-approved open-source license. If anything here is unclear or matters
+legally to you, seek your own legal advice before relying on it.
+
+
+1. DEFINITIONS
+
+   "Software" means the source code, assets, documentation, configuration,
+   and generated build artifacts in this repository, taken together.
+
+   "You" means any individual or organization exercising the rights granted
+   below.
+
+   "Non-Commercial" means use that is not primarily intended for, or directed
+   toward, commercial advantage or monetary compensation. Personal use,
+   evaluation, teaching, academic research, and internal non-revenue use all
+   qualify.
+
+
+2. GRANT OF RIGHTS (everyone)
+
+   Subject to the conditions and restrictions below, You are granted a
+   worldwide, royalty-free, non-exclusive right to:
+
+   (a) use and run the Software for Non-Commercial purposes;
+   (b) copy the Software;
+   (c) modify the Software and create derivative works of it; and
+   (d) share the Software and Your modifications, for Non-Commercial purposes,
+       provided this license and the copyright notice are kept intact.
+
+
+3. RESTRICTIONS
+
+   (a) No commercial use. You may not use the Software, in whole or in part,
+       for commercial purposes, nor to provide a paid product or service.
+
+   (b) No sale. You may not sell, rent, lease, sublicense for a fee, or
+       otherwise commercialize the Software or any derivative work of it.
+
+   (c) Notices. You must retain this license, the copyright notice, and any
+       attribution in all copies and substantial portions of the Software.
+
+
+4. SPECIAL GRANT — UNIVERSITY OF LUXEMBOURG
+
+   In addition to the rights in Section 2, the University of Luxembourg
+   (Université du Luxembourg) is granted a perpetual, worldwide, royalty-free,
+   non-exclusive right to use, run, and modify the Software for its own
+   institutional purposes — including teaching, research, and internal
+   operations. This grant does not include the right to sell the Software or
+   to sublicense it for a fee.
+
+
+5. THIRD-PARTY COMPONENTS
+
+   The Software loads or bundles third-party works that remain under their
+   own licenses, including: React and ReactDOM (MIT), Lucide icons (ISC),
+   Babel (MIT), and the IBM Plex typefaces (SIL Open Font License 1.1). This
+   license does not modify those terms; their respective licenses govern those
+   components.
+
+
+6. DISCLAIMER OF WARRANTY AND LIABILITY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+   OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+
+7. TERMINATION
+
+   Any use of the Software in breach of this license automatically terminates
+   the rights granted to the breaching party under Section 2.
+
+
+For commercial licensing or any use beyond this grant, contact the copyright
+holder.

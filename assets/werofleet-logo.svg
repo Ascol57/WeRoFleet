@@ -1,0 +1,13 @@
+<svg width="178" height="32" viewBox="0 0 178 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WeRoFleet">
+  <rect width="32" height="32" rx="7" fill="#0E7C86"></rect>
+  <g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round">
+    <line x1="16" y1="16" x2="9.5" y2="9.5"></line>
+    <line x1="16" y1="16" x2="22.5" y2="9.5"></line>
+    <line x1="16" y1="16" x2="16" y2="23.5"></line>
+  </g>
+  <circle cx="16" cy="16" r="3.1" fill="#FFFFFF"></circle>
+  <circle cx="9.5" cy="9.5" r="2.3" fill="#93D2D5"></circle>
+  <circle cx="22.5" cy="9.5" r="2.3" fill="#93D2D5"></circle>
+  <circle cx="16" cy="23.5" r="2.3" fill="#C6E7E8"></circle>
+  <text x="44" y="22" font-family="&#39;IBM Plex Sans&#39;, system-ui, sans-serif" font-size="20" font-weight="600" letter-spacing="-0.01em" fill="#161D23">WeRo<tspan fill="#0E7C86">Fleet</tspan></text>
+</svg>

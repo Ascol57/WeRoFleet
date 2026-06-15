@@ -1,0 +1,236 @@
+/* WeRoFleet Console — config presets store + apply engine (window.WRF_PRESETS)
+   Presets are reusable config bundles authored in the Presets interface and
+   applied to the devices inside selected workspaces. */
+(function () {
+  const { t } = window.WRF_I18N;
+  const KEY = 'wrf-presets-v1';
+  const CALL_KEYS = [
+    ['JoinWebex', 'Webex'],
+    ['JoinMicrosoftTeamsDirectGuestJoin', 'Microsoft Teams'],
+    ['JoinGoogleMeet', 'Google Meet'],
+    ['JoinZoom', 'Zoom'],
+  ];
+  const IMAGE_TYPE = 'HalfwakeBackground';
+  const BG_TYPE = 'Background';
+  // On/Off/Auto config toggles pushed via deviceConfigurations. 'auto' = leave unchanged.
+  // label is the English key; views localize it with t(label) at render time.
+  const VALUE_TOGGLES = [
+    { key: 'wallpaperOverlay', label: 'Custom wallpaper overlay', path: 'UserInterface.CustomWallpaperOverlay' },
+    { key: 'dashboard', label: 'Home screen dashboard', path: 'UserInterface.HomeScreen.Dashboard' },
+  ];
+  const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function normImg(img) {
+    return img && img.base64
+      ? { name: img.name || 'image', size: img.size || 0, base64: img.base64, url: img.url || ('data:image/png;base64,' + img.base64) }
+      : null;
+  }
+
+  // Branding modes: 'set' = upload image, 'remove' = Branding.Delete, 'auto' = leave unchanged.
+  function migrate(p) {
+    if (!p) return p;
+    const m = (mode, flag) => (mode === 'set' || mode === 'remove' || mode === 'auto') ? mode : (flag === true ? 'set' : 'auto');
+    p.imageMode = m(p.imageMode, p.useImage);
+    p.bgMode = m(p.bgMode, p.useBgImage);
+    // On/Off/Auto value toggles default to 'auto' (don't touch the device).
+    VALUE_TOGGLES.forEach((t) => {
+      const v = p[t.key + 'Mode'];
+      p[t.key + 'Mode'] = (v === 'on' || v === 'off' || v === 'auto') ? v : 'auto';
+    });
+    return p;
+  }
+
+  const SEED = [
+    {
+      id: 'pr-standard', name: t('Standard meeting room'), accent: '#0E7C86',
+      description: t('Default branding for everyday meeting rooms — Webex & Teams visible.'),
+      image: null, imageMode: 'auto', bgImage: null, bgMode: 'auto',
+      customMessage: t('If help needed, please call 9911.'), useMessage: true,
+      call: { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' }, useCall: true,
+      updatedAt: Date.now() - 864e5 * 4,
+    },
+    {
+      id: 'pr-exec', name: t('Executive boardroom'), accent: '#2A6FDB',
+      description: t('All call platforms enabled for cross-company guests.'),
+      image: null, imageMode: 'auto', bgImage: null, bgMode: 'auto',
+      customMessage: t('For AV support, dial 9911.'), useMessage: true,
+      call: { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Auto', JoinZoom: 'Auto' }, useCall: true,
+      updatedAt: Date.now() - 864e5 * 11,
+    },
+    {
+      id: 'pr-lobby', name: t('Lobby / signage'), accent: '#B0830B',
+      description: t('Signage devices — no call buttons, reception message.'),
+      image: null, imageMode: 'auto', bgImage: null, bgMode: 'remove',
+      customMessage: t('Welcome — please see reception for assistance.'), useMessage: true,
+      call: { JoinWebex: 'Hidden', JoinMicrosoftTeamsDirectGuestJoin: 'Hidden', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' }, useCall: true,
+      updatedAt: Date.now() - 864e5 * 2,
+    },
+  ];
+
+  function load() {
+    try { const v = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(v)) return v.map(migrate); } catch (e) {}
+    return SEED.map((s) => migrate({ ...s }));
+  }
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(presets)); } catch (e) {} }
+
+  let presets = load();
+  const listeners = new Set();
+  function emit() { listeners.forEach((f) => { try { f(); } catch (e) {} }); }
+  function subscribe(f) { listeners.add(f); return () => listeners.delete(f); }
+  function useStore() {
+    const [, force] = React.useReducer((x) => x + 1, 0);
+    React.useEffect(() => subscribe(force), []);
+    return presets;
+  }
+
+  function all() { return presets; }
+  function get(id) { return presets.find((p) => p.id === id); }
+  function upsert(p) {
+    p = { ...p, updatedAt: Date.now() };
+    const i = presets.findIndex((x) => x.id === p.id);
+    presets = i >= 0 ? presets.map((x, k) => (k === i ? p : x)) : [...presets, p];
+    persist(); emit(); return p;
+  }
+  function remove(id) { presets = presets.filter((p) => p.id !== id); persist(); emit(); }
+  function duplicate(id) {
+    const p = get(id); if (!p) return;
+    upsert({ ...p, id: 'pr-' + Math.random().toString(36).slice(2, 8), name: p.name + ' ' + t('copy') });
+  }
+  function blank() {
+    return {
+      id: 'pr-' + Math.random().toString(36).slice(2, 8), name: '', description: '', accent: '#0E7C86',
+      image: null, imageMode: 'auto',
+      bgImage: null, bgMode: 'auto',
+      wallpaperOverlayMode: 'auto', dashboardMode: 'auto',
+      customMessage: t('If help needed, please call 9911.'), useMessage: true,
+      call: { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' }, useCall: true,
+    };
+  }
+  function actions(p) {
+    const a = [];
+    if (p.imageMode === 'set' && p.image) a.push({ label: t('Halfwake'), tone: 'neutral' });
+    else if (p.imageMode === 'remove') a.push({ label: t('Halfwake: clear'), tone: 'degraded' });
+    if (p.bgMode === 'set' && p.bgImage) a.push({ label: t('Background'), tone: 'neutral' });
+    else if (p.bgMode === 'remove') a.push({ label: t('Background: clear'), tone: 'degraded' });
+    if (p.useMessage && p.customMessage) a.push({ label: t('Message'), tone: 'neutral' });
+    if (p.useCall && p.call) a.push({ label: t('Call buttons'), tone: 'neutral' });
+    VALUE_TOGGLES.forEach((tog) => {
+      const m = p[tog.key + 'Mode'];
+      if (m === 'on' || m === 'off') a.push({ label: t(tog.label) + ': ' + (m === 'on' ? t('On') : t('Off')), tone: m === 'on' ? 'neutral' : 'degraded' });
+    });
+    return a;
+  }
+
+  // ---- export / import ----
+  function serialize(list) {
+    return JSON.stringify({ type: 'werofleet.presets', version: 1, exportedAt: new Date().toISOString(), presets: list }, null, 2);
+  }
+  function exportAll() { return serialize(presets); }
+  function exportOne(id) { const p = get(id); return p ? serialize([p]) : null; }
+
+  function normalizeCall(c) {
+    const def = { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' };
+    if (!c || typeof c !== 'object') return def;
+    const out = { ...def };
+    CALL_KEYS.forEach(([k]) => { if (c[k] === 'Auto' || c[k] === 'Hidden') out[k] = c[k]; });
+    return out;
+  }
+  function sanitize(raw) {
+    raw = raw || {};
+    const img = normImg(raw.image);
+    const bg = normImg(raw.bgImage);
+    const mode = (m, flag, hasImg) => (m === 'set' || m === 'remove' || m === 'auto') ? m : (flag === true ? 'set' : 'auto');
+    return {
+      id: 'pr-' + Math.random().toString(36).slice(2, 8),
+      name: String(raw.name || t('Imported preset')),
+      description: String(raw.description || ''),
+      accent: raw.accent || '#0E7C86',
+      image: img, imageMode: mode(raw.imageMode, raw.useImage),
+      bgImage: bg, bgMode: mode(raw.bgMode, raw.useBgImage),
+      wallpaperOverlayMode: ['on', 'off', 'auto'].includes(raw.wallpaperOverlayMode) ? raw.wallpaperOverlayMode : 'auto',
+      dashboardMode: ['on', 'off', 'auto'].includes(raw.dashboardMode) ? raw.dashboardMode : 'auto',
+      customMessage: raw.customMessage != null ? String(raw.customMessage) : '',
+      useMessage: raw.useMessage !== false,
+      call: normalizeCall(raw.call), useCall: raw.useCall !== false,
+      updatedAt: Date.now(),
+    };
+  }
+  function importJSON(text) {
+    let data;
+    try { data = JSON.parse(text); } catch (e) { throw new Error(t('Invalid JSON file')); }
+    const arr = Array.isArray(data) ? data : (data && Array.isArray(data.presets) ? data.presets : (data && data.id ? [data] : null));
+    if (!arr || !arr.length) throw new Error(t('No presets found in this file'));
+    const added = arr.map(sanitize);
+    presets = [...presets, ...added]; persist(); emit();
+    return added.length;
+  }
+
+  // Apply a preset to a list of devices. onLog receives entries; updates carry { uid, update:true }.
+  async function apply(p, devices, opts) {
+    opts = opts || {};
+    const live = opts.live;
+    const log = opts.onLog || function () {};
+    const WX = window.WRF_WEBEX;
+    let uid = 0;
+    const head = (d) => log({ uid: ++uid, kind: 'head', name: d.workspaceName || d.room || d.name, model: d.model });
+    const start = (label) => { const id = ++uid; log({ uid: id, kind: 'act', label, status: 'run' }); return id; };
+    const fin = (id, status, detail) => log({ uid: id, update: true, status, detail });
+
+    for (const d of devices) {
+      head(d);
+      await applyImage(d, p.imageMode, IMAGE_TYPE, p.image);
+      await applyImage(d, p.bgMode, BG_TYPE, p.bgImage);
+      async function applyImage(dev, mode, type, image) {
+        if (mode === 'set' && image && image.base64) {
+          const id = start(t('Upload {type}', { type: type }));
+          try { if (live) await WX.uploadBranding(dev.id, type, image.base64); else await delay(240); fin(id, 'ok'); }
+          catch (e) { fin(id, 'err', e.message); }
+          await delay(200);
+        } else if (mode === 'remove') {
+          const id = start(t('Remove {type}', { type: type }));
+          try { if (live) await WX.deleteBranding(dev.id, type); else await delay(160); fin(id, 'ok'); }
+          catch (e) { fin(id, 'err', e.message); }
+          await delay(200);
+        }
+        // 'auto' → leave unchanged
+      }
+      if (p.useMessage && p.customMessage != null) {
+        const id = start(t('Set CustomMessage'));
+        try { if (live) await WX.setCustomMessage(d.id, p.customMessage); else await delay(180); fin(id, 'ok'); }
+        catch (e) { fin(id, 'err', e.message); }
+        await delay(200);
+      }
+      if (p.useCall && p.call) {
+        for (const [key, label] of CALL_KEYS) {
+          const id = start(t('Call · {platform}', { platform: label }) + ' \u2192 ' + t(p.call[key]));
+          try { if (live) await WX.setCallFeature(d.id, key, p.call[key]); else await delay(110); fin(id, 'ok'); }
+          catch (e) { fin(id, 'err', e.message); }
+          await delay(140);
+        }
+      }
+      for (const tog of VALUE_TOGGLES) {
+        const mode = p[tog.key + 'Mode'];
+        if (mode !== 'on' && mode !== 'off') continue; // 'auto' → leave unchanged
+        const value = mode === 'on' ? 'On' : 'Off';
+        const id = start(t(tog.label) + ' \u2192 ' + t(value));
+        try { if (live) await WX.setConfigValue(d.id, tog.path, value); else await delay(150); fin(id, 'ok'); }
+        catch (e) { fin(id, 'err', e.message); }
+        await delay(160);
+      }
+    }
+  }
+
+  // Track which preset was last applied to each workspace (local only).
+  const APPLIED_KEY = 'wrf-ws-applied-v1';
+  function loadApplied() { try { return JSON.parse(localStorage.getItem(APPLIED_KEY)) || {}; } catch (e) { return {}; } }
+  function recordApplied(wsId, presetName) {
+    const m = loadApplied(); m[wsId] = { name: presetName, at: Date.now() };
+    try { localStorage.setItem(APPLIED_KEY, JSON.stringify(m)); } catch (e) {}
+  }
+
+  window.WRF_PRESETS = {
+    all, get, upsert, remove, duplicate, blank, actions, useStore, subscribe, apply,
+    exportAll, exportOne, importJSON,
+    CALL_KEYS, IMAGE_TYPE, BG_TYPE, VALUE_TOGGLES, loadApplied, recordApplied,
+  };
+})();

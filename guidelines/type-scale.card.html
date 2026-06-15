@@ -1,0 +1,32 @@
+<!-- @dsCard group="Type" viewport="700x300" name="Type scale" subtitle="Display → label, tuned for a dense operations console" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 22px; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .item { display: flex; align-items: baseline; gap: 16px; }
+  .spec { width: 132px; flex: none; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-tertiary); padding-top: 4px; }
+  .spec b { display: block; color: var(--text-secondary); font-family: var(--font-sans); font-size: 11px; font-weight: 600; }
+  .sample { color: var(--text-primary); }
+  .display { font-size: var(--text-4xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1; }
+  .title { font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; }
+  .heading { font-size: var(--text-lg); font-weight: 600; }
+  .body { font-size: var(--text-base); font-weight: 400; }
+  .label { font-size: var(--text-sm); font-weight: 500; }
+  .eyebrow { font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="item"><div class="spec"><b>Display</b>40 / 600</div><div class="sample display">1,184 online</div></div>
+    <div class="item"><div class="spec"><b>Title</b>24 / 600</div><div class="sample title">Fleet overview</div></div>
+    <div class="item"><div class="spec"><b>Heading</b>17 / 600</div><div class="sample heading">Devices needing attention</div></div>
+    <div class="item"><div class="spec"><b>Body</b>14 / 400</div><div class="sample body">Camera firmware is two versions behind the fleet baseline.</div></div>
+    <div class="item"><div class="spec"><b>Label</b>13 / 500</div><div class="sample label">Last seen 2 minutes ago</div></div>
+    <div class="item"><div class="spec"><b>Eyebrow</b>11 / 600 · caps</div><div class="sample eyebrow">San Jose HQ · Floor 3</div></div>
+  </div>
+</body>
+</html>

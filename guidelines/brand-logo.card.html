@@ -1,0 +1,35 @@
+<!-- @dsCard group="Brand" viewport="700x240" name="Logo & mark" subtitle="WeRoFleet lockup, standalone mark, and on-dark lockup" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 0; }
+  .grid { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; gap: 0; height: 240px; }
+  .cell { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 12px; padding: 22px; border-right: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+  .cell img { height: 30px; }
+  .cell.mark { grid-row: span 2; align-items: center; justify-content: center; border-right: none; }
+  .cell.mark img { height: 64px; }
+  .cell.dark { background: var(--slate-950); border-bottom: none; }
+  .tag { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
+  .cell.dark .tag { color: var(--slate-400); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="cell">
+      <span class="tag">Primary lockup</span>
+      <img src="../assets/werofleet-logo.svg" alt="WeRoFleet" />
+    </div>
+    <div class="cell mark">
+      <span class="tag">Mark</span>
+      <img src="../assets/werofleet-mark.svg" alt="WeRoFleet mark" />
+    </div>
+    <div class="cell dark">
+      <span class="tag">On dark</span>
+      <img src="../assets/werofleet-logo-on-dark.svg" alt="WeRoFleet on dark" />
+    </div>
+  </div>
+</body>
+</html>

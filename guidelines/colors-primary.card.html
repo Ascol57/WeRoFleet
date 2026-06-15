@@ -1,0 +1,34 @@
+<!-- @dsCard group="Colors" viewport="700x190" name="Primary · Teal" subtitle="Connected-signal teal — primary actions, links, focus, selection" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 20px; }
+  .row { display: flex; gap: 6px; }
+  .sw { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .chip { height: 56px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); }
+  .meta { display: flex; flex-direction: column; gap: 1px; }
+  .tok { font-size: 11px; font-weight: 600; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .hex { font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; }
+  .role { display: inline-block; margin-top: 14px; font-size: 11px; color: var(--text-tertiary); }
+  .role b { color: var(--accent); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="row" id="row"></div>
+  <span class="role">Default action: <b>--accent</b> = teal-500 (light) · teal-400 (dark) · hover → 600 · active → 700</span>
+  <script>
+    const steps = [
+      ['50','#E6F4F5'],['100','#C6E7E8'],['200','#93D2D5'],['300','#57B8BD'],['400','#2A9CA3'],
+      ['500','#0E7C86'],['600','#0A6670'],['700','#08515A'],['800','#063F46'],['900','#052E33'],
+    ];
+    document.getElementById('row').innerHTML = steps.map(([s,h]) => `
+      <div class="sw">
+        <div class="chip" style="background:${h}"></div>
+        <div class="meta"><span class="tok">${s}</span><span class="hex">${h}</span></div>
+      </div>`).join('');
+  </script>
+</body>
+</html>

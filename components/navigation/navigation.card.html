@@ -1,0 +1,52 @@
+<!-- @dsCard group="Components" viewport="700x230" name="Navigation" subtitle="Tabs — underline sections & segmented control" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); color: var(--text-primary); padding: 22px; }
+  .panel { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 16px; }
+  .glabel { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Tabs } = window.HelmRoomKitFleetDS_91f16f;
+    const I = (n) => <i data-lucide={n}></i>;
+    function Demo() {
+      const [t1, setT1] = React.useState('all');
+      const [t2, setT2] = React.useState('7d');
+      React.useEffect(() => { window.lucide && window.lucide.createIcons(); });
+      return (
+        <div>
+          <div className="panel">
+            <div className="glabel">Underline — page sections</div>
+            <Tabs value={t1} onChange={setT1} tabs={[
+              { value:'all', label:'All devices', count:1240 },
+              { value:'alerts', label:'Needs attention', icon:I('alert-triangle'), count:14 },
+              { value:'rooms', label:'Rooms' },
+              { value:'updates', label:'Updates' },
+            ]} />
+          </div>
+          <div className="panel">
+            <div className="glabel">Segmented — view / range toggle</div>
+            <div style={{display:'inline-flex'}}>
+              <Tabs variant="pill" value={t2} onChange={setT2} tabs={[
+                { value:'24h', label:'24h' }, { value:'7d', label:'7d' }, { value:'30d', label:'30d' },
+              ]} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

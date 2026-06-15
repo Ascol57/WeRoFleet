@@ -1,0 +1,60 @@
+/* ============================================================
+   WEROFLEET — Spacing & layout tokens
+   4px base grid. Dense by default — this is an operations console.
+   ============================================================ */
+
+:root {
+  /* ---- Spacing scale (4px base) ---- */
+  --space-0:   0;
+  --space-px:  1px;
+  --space-0-5: 2px;
+  --space-1:   4px;
+  --space-1-5: 6px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ---- Semantic spacing ---- */
+  --gap-inline:    var(--space-2);   /* between inline controls */
+  --gap-stack:     var(--space-3);   /* between stacked fields */
+  --pad-control:   var(--space-3);   /* control inner padding-x */
+  --pad-card:      var(--space-5);   /* card inner padding */
+  --pad-cell:      var(--space-3);   /* table cell padding */
+  --pad-section:   var(--space-8);   /* between page sections */
+
+  /* ---- Control sizing (heights) ---- */
+  --control-sm: 28px;
+  --control-md: 34px;
+  --control-lg: 40px;
+
+  /* ---- Layout rails ---- */
+  --rail-nav:       248px;   /* left navigation rail */
+  --rail-nav-collapsed: 60px;
+  --rail-detail:    360px;   /* right inspector panel */
+  --topbar-height:  56px;
+  --row-height:     44px;    /* device table row */
+  --row-height-compact: 36px;
+  --content-max:    1440px;
+
+  /* ---- Radii ---- */
+  --radius-none: 0;
+  --radius-xs:   3px;   /* badges, tags, chips */
+  --radius-sm:   5px;   /* inputs, buttons */
+  --radius-md:   8px;   /* cards, menus */
+  --radius-lg:   12px;  /* modals, large panels */
+  --radius-xl:   16px;
+  --radius-full: 999px; /* pills, avatars, status dots */
+
+  /* ---- Border widths ---- */
+  --border-width: 1px;
+  --border-width-strong: 1.5px;
+  --ring-width: 2px;
+}

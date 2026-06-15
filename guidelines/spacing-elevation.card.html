@@ -1,0 +1,28 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Elevation" subtitle="Subtle cool-tinted shadows — borders carry most hierarchy" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); color: var(--text-primary); padding: 26px 20px; }
+  .row { display: flex; gap: 20px; }
+  .item { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .box { width: 92px; height: 60px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); }
+  .tok { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-secondary); }
+  .use { font-size: 10px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+  <div class="row" id="row"></div>
+  <script>
+    const sh = [['xs','hairline lift'],['sm','cards · rows'],['md','raised cards'],['lg','popovers · menus'],['xl','modals · drawers']];
+    document.getElementById('row').innerHTML = sh.map(([t,use]) => `
+      <div class="item">
+        <div class="box" style="box-shadow:var(--shadow-${t})"></div>
+        <span class="tok">--shadow-${t}</span>
+        <span class="use">${use}</span>
+      </div>`).join('');
+  </script>
+</body>
+</html>

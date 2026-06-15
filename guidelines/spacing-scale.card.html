@@ -1,0 +1,28 @@
+<!-- @dsCard group="Spacing" viewport="700x210" name="Spacing scale" subtitle="4px base grid — dense by default for an ops console" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-card); color: var(--text-primary); padding: 20px; }
+  .stack { display: flex; flex-direction: column; gap: 9px; }
+  .item { display: flex; align-items: center; gap: 14px; }
+  .tok { width: 92px; flex: none; font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); }
+  .bar { height: 14px; background: var(--accent); border-radius: 2px; }
+  .px { font-size: 11px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="stack" id="stack"></div>
+  <script>
+    const steps = [['space-1',4],['space-2',8],['space-3',12],['space-4',16],['space-5',20],['space-6',24],['space-8',32],['space-12',48],['space-16',64]];
+    document.getElementById('stack').innerHTML = steps.map(([t,px]) => `
+      <div class="item">
+        <span class="tok">--${t}</span>
+        <span class="bar" style="width:${px}px"></span>
+        <span class="px">${px}px</span>
+      </div>`).join('');
+  </script>
+</body>
+</html>
