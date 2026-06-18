@@ -49,8 +49,13 @@
     const [site, setSite] = useState('');
     const [tab, setTab] = useState('all');
     const [sel, setSel] = useState({});
+    const [showOther, setShowOther] = useState(false);
 
-    const all = store.devices;
+    // By default only show branding-eligible room devices; the rest (phones,
+    // headsets, …) are hidden behind a toggle so the table isn't cluttered.
+    const eligibleDevices = WX.eligible(store.devices);
+    const otherN = store.devices.length - eligibleDevices.length;
+    const all = showOther ? store.devices : eligibleDevices;
     const attentionN = all.filter((d) => d.state === 'critical' || d.state === 'degraded').length;
     const incallN = all.filter((d) => d.state === 'incall').length;
 
@@ -109,6 +114,12 @@
             { value: 'incall', label: t('In call'), count: incallN },
           ]} />
           <div className="wrf-toolbar-right">
+            {otherN > 0 && (
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 7, cursor: 'pointer', fontSize: 13, color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+                <Checkbox checked={showOther} onChange={() => setShowOther((v) => !v)} aria-label={t('Show other devices')} />
+                <span>{t('Show {n} other devices', { n: otherN })}</span>
+              </label>
+            )}
             <div style={{ width: 220 }}><Input size="sm" leadingIcon={I('search')} placeholder={t('Search devices…')} value={q} onChange={(e) => setQ(e.target.value)} /></div>
             <div style={{ width: 170 }}><Select size="sm" value={site} onChange={(e) => setSite(e.target.value)} options={siteOpts} /></div>
           </div>
@@ -245,8 +256,9 @@
     }
 
     // Auto-load live status + applied config when the drawer opens (live only).
+    // Skip non-eligible devices — they have no cloud xAPI and would just 404.
     React.useEffect(() => {
-      if (!live || !d) return;
+      if (!live || !d || !WX.isEligible(d)) return;
       queryLive();
       queryConfig();
       // eslint-disable-next-line

@@ -126,7 +126,9 @@
     useEffect(() => {
       if (store.mode === 'live' && pollOn && POLLER) {
         POLLER.start({
-          getDevices: () => DATA.store.devices,
+          // Only sweep branding-eligible room devices — phones/headsets/etc. have
+          // no cloud xAPI and would 404 on every sweep, spamming the console.
+          getDevices: () => WX.eligible(DATA.store.devices),
           onDevice: (id, s) => DATA.applyLiveStatus(id, s),
           onState: (st) => { if (st.sweeping !== undefined) setSweeping(st.sweeping); if (st.sweptAt) hideSplash(); },
           cooldown: cooldown,

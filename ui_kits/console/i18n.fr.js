@@ -102,6 +102,8 @@ window.__WRF_FR_DICT = {
   'All': 'Tout',
   'In call': 'En appel',
   'Search devices…': 'Rechercher des appareils…',
+  'Show other devices': 'Afficher les autres appareils',
+  'Show {n} other devices': 'Afficher {n} autres appareils',
   '{count} selected': '{count} sélectionné(s)',
   'Reboot': 'Redémarrer',
   'Branding…': 'Marque…',

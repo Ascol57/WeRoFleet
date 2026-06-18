@@ -1,6 +1,6 @@
 /* WeRoFleet Console — Overview screen */
 (function () {
-  const { Card, MetricStat, StatusBadge, Banner, Button, Badge, ProgressBar, Avatar } = window.HelmRoomKitFleetDS_91f16f;
+  const { Card, MetricStat, StatusBadge, Banner, Button, Badge, Avatar } = window.HelmRoomKitFleetDS_91f16f;
   const { I } = window.WRF_SHELL;
   const { t, tState } = window.WRF_I18N;
   const DATA = window.WRF_DATA;
@@ -55,8 +55,6 @@
     const siteN = DATA.sites().length;
     const attention = devices.filter((d) => d.state === 'critical' || d.state === 'degraded');
     const down = devices.filter((d) => d.state === 'critical' || d.state === 'offline');
-    const onBaseline = devices.filter((d) => !d.fwOld).length;
-    const behind = devices.filter((d) => d.fwOld).length;
 
     return (
       <div>
@@ -91,19 +89,9 @@
           <Card pad><MetricStat label={t('Needs attention')} value={c.degraded + c.critical} footnote={c.critical ? t('{n} critical', { n: c.critical }) : t('all clear')} /></Card>
         </div>
 
-        <div className="wrf-two-col">
+        <div className="wrf-two-col" style={{ gridTemplateColumns: '1fr' }}>
           <Card title={t('Fleet health')} subtitle={t('By operational state')}>
             <DonutBar c={c} />
-          </Card>
-          <Card title={t('Firmware coverage')} subtitle={store.baseline ? t('{v} baseline', { v: store.baseline }) : t('No baseline')}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 4 }}>
-              <ProgressBar label={t('On baseline')} value={onBaseline} max={c.total || 1} showValue valueText={`${onBaseline} / ${c.total}`} tone="online" />
-              <ProgressBar label={t('Behind baseline')} value={behind} max={c.total || 1} showValue valueText={`${behind} / ${c.total}`} tone="degraded" />
-              <div className="wrf-fw-note">
-                {I('info')}
-                <span>{behind > 0 ? (behind === 1 ? t('{n} device is behind the fleet baseline.', { n: behind }) : t('{n} devices are behind the fleet baseline.', { n: behind })) : t('Every reachable device is on the baseline build.')}</span>
-              </div>
-            </div>
           </Card>
         </div>
 

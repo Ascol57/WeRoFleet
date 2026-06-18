@@ -102,6 +102,8 @@ window.__WRF_LB_DICT = {
   'All': 'All',
   'In call': 'Am Uruff',
   'Search devices…': 'Apparater sichen…',
+  'Show other devices': 'Aner Apparater weisen',
+  'Show {n} other devices': '{n} aner Apparater weisen',
   '{count} selected': '{count} ausgewielt',
   'Reboot': 'Nei starten',
   'Branding…': 'Branding…',

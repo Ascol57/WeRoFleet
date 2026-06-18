@@ -102,6 +102,8 @@ window.__WRF_DE_DICT = {
   'All': 'Alle',
   'In call': 'Im Anruf',
   'Search devices…': 'Geräte suchen…',
+  'Show other devices': 'Andere Geräte anzeigen',
+  'Show {n} other devices': '{n} andere Geräte anzeigen',
   '{count} selected': '{count} ausgewählt',
   'Reboot': 'Neu starten',
   'Branding…': 'Branding…',
