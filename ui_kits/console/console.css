@@ -107,13 +107,6 @@
 .wrf-periph-main b { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--text-primary); }
 .wrf-periph-main span { font-size: var(--text-xs); color: var(--text-tertiary); }
 
-.wrf-timeline { display: flex; flex-direction: column; }
-.wrf-tl-row { display: flex; gap: 12px; padding: 9px 0; }
-.wrf-tl-ic { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-sunken); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); flex: none; }
-.wrf-tl-ic svg, .wrf-tl-ic i { width: 13px; height: 13px; }
-.wrf-tl-main { display: flex; flex-direction: column; font-size: var(--text-sm); color: var(--text-secondary); }
-.wrf-tl-time { font-size: var(--text-xs); color: var(--text-tertiary); }
-
 /* alerts */
 .wrf-alert-list { display: flex; flex-direction: column; gap: 10px; }
 .wrf-alert-card { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 16px 14px 18px; background: var(--surface-card); border: 1px solid var(--border-default); border-radius: var(--radius-md); box-shadow: var(--shadow-xs); overflow: hidden; }

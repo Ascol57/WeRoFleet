@@ -2,6 +2,9 @@
 /dist/
 *.bundle.html
 
+# ---- release archive (regenerate with: node tools/build-zip.mjs) ----
+/WeRoFleet.zip
+
 # ---- bundler download cache (CDN libs, fonts, Babel) ----
 /tools/.cache/
 

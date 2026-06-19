@@ -43,9 +43,12 @@
       .catch((e) => notify(t('Reboot failed: {message}', { message: e.message }), 'critical'));
   }
 
-  function Devices({ onOpenDevice }) {
+  function Devices({ onOpenDevice, query = '', onQuery }) {
     const store = DATA.useStore();
-    const [q, setQ] = useState('');
+    // Search query is lifted to the app shell so the top-bar search and this
+    // in-view search box share one source of truth.
+    const q = query;
+    const setQ = onQuery || (() => {});
     const [site, setSite] = useState('');
     const [tab, setTab] = useState('all');
     const [sel, setSel] = useState({});
@@ -101,10 +104,6 @@
         <PageHead
           title={t('Devices')}
           sub={`${all.length} ${all.length === 1 ? t('device') : t('devices')}${store.mode === 'live' ? '' : ' · demo'}`}
-          actions={<>
-            <Button variant="secondary" leadingIcon={I('sliders-horizontal')}>{t('Columns')}</Button>
-            <Button variant="primary" leadingIcon={I('plus')}>{t('Add device')}</Button>
-          </>}
         />
 
         <div className="wrf-toolbar">
@@ -130,8 +129,6 @@
             <span className="wrf-bulk-count">{t('{count} selected', { count: selCount })}</span>
             <div className="wrf-bulk-actions">
               <Button size="sm" variant="secondary" leadingIcon={I('rotate-cw')} onClick={bulkReboot}>{t('Reboot')}</Button>
-              <Button size="sm" variant="secondary" leadingIcon={I('image')}>{t('Branding…')}</Button>
-              <Button size="sm" variant="ghost" leadingIcon={I('tag')}>{t('Tag')}</Button>
             </div>
             <button className="wrf-bulk-clear" onClick={() => setSel({})}>{t('Clear')}</button>
           </div>
@@ -181,7 +178,6 @@
                     <td className="wrf-td-act" onClick={(e) => e.stopPropagation()}>
                       <div className="wrf-act-wrap">
                         <Tooltip label={t('Reboot')} side="left"><IconButton size="sm" variant="ghost" icon={I('rotate-cw')} label={t('Reboot')} onClick={() => doReboot(d)} /></Tooltip>
-                        <IconButton size="sm" variant="ghost" icon={I('more-vertical')} label={t('More')} />
                       </div>
                     </td>
                   </tr>
@@ -295,7 +291,6 @@
             <Button variant="primary" size="sm" leadingIcon={rebooting ? I('loader-2', { className: 'wrf-spin' }) : I('rotate-cw')} onClick={reboot} disabled={rebooting}>{rebooting ? t('Rebooting…') : t('Reboot')}</Button>
             <Button variant="secondary" size="sm" leadingIcon={I('image')} onClick={() => setShowBranding(true)}>{t('Branding')}</Button>
             {live && <Button variant="secondary" size="sm" leadingIcon={detBusy ? I('loader-2', { className: 'wrf-spin' }) : I('activity')} onClick={queryLive} disabled={detBusy}>{detBusy ? t('Querying…') : t('Query xAPI')}</Button>}
-            <IconButton variant="outline" size="sm" icon={I('more-horizontal')} label={t('More')} />
           </div>
 
           <div className="wrf-drawer-tabs">
@@ -303,7 +298,6 @@
               { value: 'overview', label: t('Overview') },
               { value: 'config', label: t('Configuration') },
               { value: 'peripherals', label: t('Peripherals') },
-              { value: 'history', label: t('History') },
             ]} />
           </div>
 
@@ -373,6 +367,7 @@
                 </>}
               </Card>
             )}
+            {tab === 'peripherals' && (
               <Card title={t('Connected peripherals')}>
                 {live ? (
                   det ? (
@@ -400,19 +395,6 @@
                     <div className="wrf-periph-row"><span className="wrf-periph-ic">{I('mic')}</span><div className="wrf-periph-main"><b>Table Microphone ×2</b><span>{t('Healthy')}</span></div><StatusBadge state="online" plain /></div>
                     <div className="wrf-periph-row"><span className="wrf-periph-ic">{I('tablet')}</span><div className="wrf-periph-main"><b>Touch 10 Controller</b><span>{t('Paired')}</span></div><StatusBadge state="online" plain /></div>
                     <div className="wrf-periph-row"><span className="wrf-periph-ic">{I('monitor')}</span><div className="wrf-periph-main"><b>Display · HDMI 1</b><span>{d.name === 'Riverside Briefing' ? t('Handshake errors') : '3840×2160 · 60Hz'}</span></div><StatusBadge state={d.name === 'Riverside Briefing' ? 'degraded' : 'online'} plain /></div>
-                  </div>
-                )}
-              </Card>
-            )}
-            {tab === 'history' && (
-              <Card title={t('Recent events')}>
-                {live ? (
-                  <div className="wrf-empty" style={{ padding: '24px 8px' }}><div className="wrf-empty-sub">{t("Per-device history isn't available from the Devices API.")}</div></div>
-                ) : (
-                  <div className="wrf-timeline">
-                    {[['Rebooted by Priya Anand', '12m ago', 'rotate-cw'], ['Joined call · Q3 Planning', '38m ago', 'video'], ['Firmware check passed', '2h ago', 'check-circle-2'], ['Config pushed', '1d ago', 'settings'], ['Came online', '14d ago', 'power']].map(([ev, time, ic], i) => (
-                      <div key={i} className="wrf-tl-row"><span className="wrf-tl-ic">{I(ic)}</span><div className="wrf-tl-main"><span>{t(ev)}</span><span className="wrf-tl-time">{time}</span></div></div>
-                    ))}
                   </div>
                 )}
               </Card>

@@ -27,9 +27,19 @@ legally to you, seek your own legal advice before relying on it.
 
    (a) use and run the Software for Non-Commercial purposes;
    (b) copy the Software;
-   (c) modify the Software and create derivative works of it; and
+   (c) modify the Software and create derivative works of it;
    (d) share the Software and Your modifications, for Non-Commercial purposes,
-       provided this license and the copyright notice are kept intact.
+       provided this license and the copyright notice are kept intact. If You
+       modify the Software and distribute, publicly display, or otherwise make
+       Your modifications available to others, You must make the complete
+       source code of Your modifications publicly available under the exact
+       terms of this License.
+   (e) Network Use as Distribution. If You modify the Software and make its
+       functionality available to users or third parties through a computer
+       network (such as hosting it as a web service, API, or console), this
+       constitutes distribution. You must make the complete source code of
+       Your modifications publicly available under the exact terms of this
+       License.
 
 
 3. RESTRICTIONS
@@ -48,10 +58,12 @@ legally to you, seek your own legal advice before relying on it.
 
    In addition to the rights in Section 2, the University of Luxembourg
    (Université du Luxembourg) is granted a perpetual, worldwide, royalty-free,
-   non-exclusive right to use, run, and modify the Software for its own
-   institutional purposes — including teaching, research, and internal
-   operations. This grant does not include the right to sell the Software or
-   to sublicense it for a fee.
+   non-exclusive right to use, run, modify the Software, and create derivative
+   works for its own institutional purposes — including teaching, research,
+   and internal operations. The University is explicitly exempt from the
+   obligations in Sections 2(d) and 2(e) to publish or share its
+   modifications. This grant does not include the right to sell the Software
+   or to sublicense it for a fee.
 
 
 5. THIRD-PARTY COMPONENTS
@@ -77,6 +89,19 @@ legally to you, seek your own legal advice before relying on it.
 
    Any use of the Software in breach of this license automatically terminates
    the rights granted to the breaching party under Section 2.
+
+
+8. CONTRIBUTIONS
+
+   By submitting a pull request, patch, or other contribution to this
+   repository, You agree that Your contribution is licensed under the exact
+   terms of this License, without any additional terms or conditions.
+
+
+9. GOVERNING LAW
+
+   This License shall be governed by and construed in accordance with the laws
+   of the Grand Duchy of Luxembourg.
 
 
 For commercial licensing or any use beyond this grant, contact the copyright

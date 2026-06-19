@@ -63,8 +63,7 @@
           sub={`${c.total === 1 ? t('{n} device', { n: c.total }) : t('{n} devices', { n: c.total })}${siteN ? (siteN === 1 ? t(' across {n} site', { n: siteN }) : t(' across {n} sites', { n: siteN })) : ''} · ${live ? t('live') : t('demo data')}`}
           actions={<>
             {!live && <Button variant="secondary" leadingIcon={I('plug')} onClick={onConnect}>{t('Connect Webex')}</Button>}
-            <Button variant="secondary" leadingIcon={I('download')}>{t('Export')}</Button>
-            <Button variant="primary" leadingIcon={I('upload-cloud')} onClick={() => onNav('updates')}>{t('Deploy update')}</Button>
+            <Button variant="secondary" leadingIcon={I('download')} disabled={!devices.length} onClick={() => exportDevicesCsv(devices)}>{t('Export')}</Button>
           </>}
         />
 
@@ -126,6 +125,21 @@
   }
 
   function pct(n, d) { return d ? Math.round((n / d) * 100) : 0; }
+
+  // Download the current fleet as a CSV (BOM-prefixed so Excel reads UTF-8).
+  function exportDevicesCsv(devices) {
+    const cols = [['name', 'Name'], ['site', 'Site'], ['room', 'Room'], ['model', 'Model'], ['serial', 'Serial'], ['ip', 'IP'], ['mac', 'MAC'], ['fw', 'Firmware'], ['state', 'State'], ['issue', 'Issue']];
+    const esc = (v) => { const s = v == null ? '' : String(v); return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    const lines = [cols.map(([, label]) => label).join(',')];
+    devices.forEach((d) => lines.push(cols.map(([k]) => esc(d[k])).join(',')));
+    const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'werofleet-devices.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    if (window.WRF_notify) window.WRF_notify(t('Exported {n} devices to CSV', { n: devices.length }), 'success');
+  }
 
   window.WRF_Overview = Overview;
 })();

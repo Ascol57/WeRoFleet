@@ -29,8 +29,6 @@
   .wrf-top { display: flex; align-items: center; gap: 14px; height: var(--topbar-height); flex: none; padding: 0 20px; background: var(--surface-card); border-bottom: 1px solid var(--border-default); }
   .wrf-top-search { flex: 1; max-width: 420px; }
   .wrf-top-right { margin-left: auto; display: flex; align-items: center; gap: 6px; }
-  .wrf-bell { position: relative; }
-  .wrf-bell-dot { position: absolute; top: 5px; right: 5px; min-width: 15px; height: 15px; padding: 0 4px; border-radius: 999px; background: var(--status-critical); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--surface-card); }
   .wrf-conn { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 10px 0 9px; border-radius: var(--radius-full); border: 1px solid var(--border-default); background: var(--surface-card); cursor: pointer; font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
   .wrf-conn:hover { background: var(--surface-hover); border-color: var(--border-strong); }
   .wrf-conn-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
@@ -70,11 +68,11 @@
     { id: 'settings', label: 'Settings', icon: 'settings' },
   ];
 
-  function Sidebar({ active, onNav, store, onConnectClick, bell }) {
+  function Sidebar({ active, onNav, store, onConnectClick }) {
     const live = store.mode === 'live';
     const deviceN = store.devices.length;
     const siteN = window.WRF_DATA.sites().length;
-    const counts = { devices: deviceN, workspaces: store.workspaces.length, alerts: bell };
+    const counts = { devices: deviceN, workspaces: store.workspaces.length };
     return (
       React.createElement('aside', { className: 'wrf-side' },
         React.createElement('div', { className: 'wrf-side-top' },
@@ -143,40 +141,34 @@
       ));
   }
 
-  function TopBar({ theme, onToggleTheme, store, onConnectClick, onRefresh, bell, pollOn, sweeping, onTogglePoll }) {
+  function TopBar({ theme, onToggleTheme, store, onConnectClick, onRefresh, pollOn, sweeping, onTogglePoll, search, onSearch }) {
     const live = store.mode === 'live';
     return (
       React.createElement('header', { className: 'wrf-top' },
         React.createElement('div', { className: 'wrf-top-search' },
-          React.createElement(Input, { leadingIcon: I('search'), placeholder: t('Search devices, rooms, serials…'), size: 'sm' }),
+          React.createElement(Input, { leadingIcon: I('search'), placeholder: t('Search devices, rooms, serials…'), size: 'sm', value: search || '', onChange: (e) => onSearch && onSearch(e.target.value) }),
         ),
         React.createElement('div', { className: 'wrf-top-right' },
           React.createElement(ConnPill, { store, onConnectClick }),
           live ? React.createElement(LivePill, { pollOn, sweeping, onTogglePoll }) : null,
-          live ? React.createElement(Tooltip, { label: t('Re-sync devices now') },
-            React.createElement(IconButton, { variant: 'ghost', icon: I('refresh-cw'), label: t('Refresh'), onClick: onRefresh })) : null,
+          live ? React.createElement(Tooltip, { label: t('Re-sync devices now'), side: 'bottom' },
+            React.createElement(IconButton, { variant: 'ghost', icon: I('refresh-cw'), label: t('Refresh'), title: '', onClick: onRefresh })) : null,
           React.createElement('div', { style: { width: 1, height: 24, background: 'var(--border-default)', margin: '0 2px' } }),
           React.createElement(LangToggle),
-          React.createElement(Tooltip, { label: theme === 'dark' ? t('Light mode') : t('Dark mode') },
-            React.createElement(IconButton, { variant: 'ghost', icon: I(theme === 'dark' ? 'sun' : 'moon'), label: t('Theme'), onClick: onToggleTheme })),
-          React.createElement('span', { className: 'wrf-bell' },
-            React.createElement(IconButton, { variant: 'ghost', icon: I('bell'), label: t('Notifications') }),
-            bell > 0 ? React.createElement('span', { className: 'wrf-bell-dot' }, bell) : null,
-          ),
-          React.createElement('div', { style: { width: 1, height: 24, background: 'var(--border-default)', margin: '0 4px' } }),
-          React.createElement(Avatar, { name: store.me && store.me.displayName ? store.me.displayName : 'Jordan Reyes', size: 'sm', statusColor: 'var(--status-online)' }),
+          React.createElement(Tooltip, { label: theme === 'dark' ? t('Light mode') : t('Dark mode'), side: 'bottom' },
+            React.createElement(IconButton, { variant: 'ghost', icon: I(theme === 'dark' ? 'sun' : 'moon'), label: t('Theme'), title: '', onClick: onToggleTheme })),
         )
       )
     );
   }
 
-  function AppShell({ active, onNav, theme, onToggleTheme, store, onConnectClick, onRefresh, bell, pollOn, sweeping, onTogglePoll, children }) {
+  function AppShell({ active, onNav, theme, onToggleTheme, store, onConnectClick, onRefresh, pollOn, sweeping, onTogglePoll, search, onSearch, children }) {
     useEffect(() => { inject(); });
     return (
       React.createElement('div', { className: 'wrf-app', 'data-theme': theme },
-        React.createElement(Sidebar, { active, onNav, store, onConnectClick, bell }),
+        React.createElement(Sidebar, { active, onNav, store, onConnectClick }),
         React.createElement('div', { className: 'wrf-main' },
-          React.createElement(TopBar, { theme, onToggleTheme, store, onConnectClick, onRefresh, bell, pollOn, sweeping, onTogglePoll }),
+          React.createElement(TopBar, { theme, onToggleTheme, store, onConnectClick, onRefresh, pollOn, sweeping, onTogglePoll, search, onSearch }),
           React.createElement('div', { className: 'wrf-content' },
             React.createElement('div', { className: 'wrf-content-inner' }, children),
           ),

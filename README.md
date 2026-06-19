@@ -33,7 +33,7 @@ against a live Webex organization.
 ## Quick start
 
 ### Option A — open the single-file build
-Grab `dist/WeRoFleet Console.bundle.html` (build it as below, or download it
+Grab `dist/WeRoFleet.html` (build it as below, or download it
 from the project's Releases) and open it in any modern browser. It is fully
 self-contained.
 
@@ -50,7 +50,7 @@ Requires **Node 18+** (uses the built-in `fetch`).
 
 ```bash
 node tools/build-bundle.mjs
-# -> dist/WeRoFleet Console.bundle.html
+# -> dist/WeRoFleet.html
 ```
 
 The bundler:

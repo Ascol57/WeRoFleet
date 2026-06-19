@@ -20,7 +20,7 @@
 // Downloads are cached under tools/.cache so rebuilds are fast/offline.
 //
 //   Usage:  node tools/build-bundle.mjs [output.html]
-//   Default output:  ./WeRoFleet Console.bundle.html
+//   Default output:  ./dist/WeRoFleet.html
 // ============================================================
 
 import { readFileSync, writeFileSync, statSync, mkdirSync, existsSync } from 'node:fs';
@@ -37,7 +37,7 @@ const SHELL = join(ROOT, 'tools', 'bundler-shell.html');
 const CACHE = join(ROOT, 'tools', '.cache');
 const OUT = process.argv[2]
   ? resolve(process.cwd(), process.argv[2])
-  : join(ROOT, 'dist', 'WeRoFleet Console.bundle.html');
+  : join(ROOT, 'dist', 'WeRoFleet.html');
 
 const read = (p) => readFileSync(p, 'utf8');
 const log = (...a) => console.log('[bundle]', ...a);

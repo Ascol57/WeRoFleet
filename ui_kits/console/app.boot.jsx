@@ -3,7 +3,6 @@
   const { useState, useEffect, useCallback } = React;
   const { AppShell, I } = window.WRF_SHELL;
   const { t } = window.WRF_I18N;
-  const { Card, Button } = window.HelmRoomKitFleetDS_91f16f;
   const DATA = window.WRF_DATA;
   const WX = window.WRF_WEBEX;
   const POLLER = window.WRF_POLLER;
@@ -37,34 +36,24 @@
     );
   }
 
-  function Placeholder({ title }) {
-    const PageHead = window.WRF_PageHead;
-    return (
-      <div>
-        <PageHead title={title} sub={t('Demonstration surface')} />
-        <Card>
-          <div className="wrf-empty">
-            <div className="wrf-empty-ic"><i data-lucide="construction"></i></div>
-            <div className="wrf-empty-title">{t('{title} lives here', { title })}</div>
-            <div className="wrf-empty-sub">{t('This UI kit focuses on Overview, Devices, and Workspaces. Other surfaces follow the same shell.')}</div>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-
   function App() {
     const prefs = loadPrefs();
     const store = DATA.useStore();
     window.WRF_I18N.useStore();   // re-render the whole tree on language change
-    const [active, setActive] = useState(prefs.active && prefs.active !== 'alerts' ? prefs.active : 'overview');
+    const ROUTES = ['overview', 'devices', 'workspaces', 'presets', 'settings'];
+    const [active, setActive] = useState(ROUTES.indexOf(prefs.active) >= 0 ? prefs.active : 'overview');
     const [theme, setTheme] = useState(prefs.theme || 'light');
     const [device, setDevice] = useState(null);
     const [showConnect, setShowConnect] = useState(false);
     const [pollOn, setPollOn] = useState(true);
     const [sweeping, setSweeping] = useState(false);
     const [cooldown, setCooldown] = useState(prefs.cooldown || 20000);
+    const [search, setSearch] = useState('');
     const { toasts, notify } = useToasts();
+
+    // Global top-bar search: jump to the Devices view (where results show) as
+    // soon as the user types, and feed the query into its filter.
+    const onSearch = (v) => { setSearch(v); if (v.trim()) { setActive('devices'); setDevice(null); } };
 
     // ---- first-run splash: keep it visible until the first full fleet status sweep completes ----
     const splashDone = React.useRef(false);
@@ -150,24 +139,22 @@
     const DeviceDrawer = window.WRF_DeviceDrawer;
     const ConnectModal = window.WRF_ConnectModal;
 
-    const bell = DATA.alerts().filter((a) => a.status !== 'resolved').length;
-
     let screen;
-    if (active === 'overview') screen = <Overview onOpenDevice={onOpenDevice} onNav={onNav} onConnect={() => setShowConnect(true)} />;
-    else if (active === 'devices') screen = <Devices onOpenDevice={onOpenDevice} />;
+    if (active === 'devices') screen = <Devices onOpenDevice={onOpenDevice} query={search} onQuery={setSearch} />;
     else if (active === 'workspaces') screen = <Workspaces onOpenDevice={onOpenDevice} />;
     else if (active === 'presets') screen = <Presets onGoWorkspaces={() => onNav('workspaces')} />;
     else if (active === 'settings') screen = <Settings cooldown={cooldown} onCooldown={setCooldown} onConnect={() => setShowConnect(true)} />;
-    else screen = <Placeholder title={active.charAt(0).toUpperCase() + active.slice(1)} />;
+    else screen = <Overview onOpenDevice={onOpenDevice} onNav={onNav} onConnect={() => setShowConnect(true)} />;
 
     return (
       <AppShell
         active={active} onNav={onNav}
         theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        store={store} bell={bell}
+        store={store}
         onConnectClick={() => setShowConnect(true)}
         onRefresh={refresh}
         pollOn={pollOn} sweeping={sweeping} onTogglePoll={() => setPollOn((v) => !v)}
+        search={search} onSearch={onSearch}
       >
         {screen}
         {device && <DeviceDrawer id={device} onClose={() => setDevice(null)} notify={notify} />}

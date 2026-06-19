@@ -22,16 +22,6 @@
     { id: 'd-15', name: 'Riverside Briefing', room: 'Floor 6',          site: 'Austin',      model: 'Room Kit Pro',  state: 'degraded', fw: '11.21.1.6', fwOld: false, uptime: '3d 09:12',  ip: '10.16.6.19',  serial: 'AUS2534RP6P', mac: 'C4:17:FE:33:19:41', issue: 'Display HDMI handshake errors', meeting: null },
   ];
 
-  const ALERTS_DEMO = [
-    { id: 'a-1', sev: 'critical', device: 'Training Room',     site: 'San Jose HQ', msg: 'Device lost network connectivity', time: '41m ago',  status: 'open',  who: null },
-    { id: 'a-2', sev: 'critical', device: 'Opera Room',        site: 'Sydney',      msg: 'Unexpected power loss',            time: '1h 12m ago',status: 'open',  who: null },
-    { id: 'a-3', sev: 'warning',  device: 'Huddle 2',          site: 'San Jose HQ', msg: 'Camera peripheral not detected',   time: '2h ago',    status: 'ack',   who: 'Priya Anand' },
-    { id: 'a-4', sev: 'warning',  device: 'Camden Huddle',     site: 'London',      msg: 'Microphone input level low',       time: '3h ago',    status: 'ack',   who: 'Marcus Lee' },
-    { id: 'a-5', sev: 'warning',  device: 'Riverside Briefing',site: 'Austin',      msg: 'Display HDMI handshake errors',     time: '5h ago',    status: 'open',  who: null },
-    { id: 'a-6', sev: 'info',     device: 'Huddle 2',          site: 'San Jose HQ', msg: 'Firmware behind fleet baseline',    time: '6h ago',    status: 'open',  who: null },
-    { id: 'a-7', sev: 'warning',  device: 'Camden Huddle',     site: 'London',      msg: 'Firmware behind fleet baseline',    time: '6h ago',    status: 'resolved', who: 'Dana Cole' },
-  ];
-
   const ACTIVITY_DEMO = [
     { who: 'Priya Anand', action: 'rebooted', target: 'Huddle 2', time: '12m' },
     { who: 'System',      action: 'pushed config to', target: '15 devices', time: '38m' },
@@ -58,7 +48,6 @@
     baseline: '11.21.1.6',
     error: null,
     lastSync: null,      // Date
-    localActs: {},       // deviceId -> { acked:bool, resolved:bool } for live alerts
   };
 
   const listeners = new Set();
@@ -125,7 +114,7 @@
     setState({
       mode: 'demo', status: 'ready', connected: false, org: null, me: null,
       devices: dev, workspaces: buildWorkspaces(dev), baseline: '11.21.1.6',
-      error: null, lastSync: new Date(), localActs: {},
+      error: null, lastSync: new Date(),
     });
   }
 
@@ -198,33 +187,6 @@
     return Array.from(set).sort();
   }
 
-  // Build the alert queue. Demo mode returns the curated list; live derives from device state.
-  function alerts() {
-    // Localize at call time (re-runs on every render → tracks language switches).
-    if (store.mode === 'demo') return ALERTS_DEMO.map((a) => ({ ...a, msg: t(a.msg), time: t(a.time) }));
-    const out = [];
-    store.devices.forEach((d) => {
-      const act = store.localActs[d.id] || {};
-      const status = act.resolved ? 'resolved' : (act.acked ? 'ack' : 'open');
-      if (d.state === 'critical') {
-        out.push({ id: 'al-c-' + d.id, sev: 'critical', device: d.name, site: d.site || '—', msg: d.issue ? t(d.issue) : t('Device unreachable'), time: relTime(d.lastSeen), status, who: act.who || null, deviceId: d.id });
-      } else if (d.state === 'offline') {
-        out.push({ id: 'al-o-' + d.id, sev: 'warning', device: d.name, site: d.site || '—', msg: d.issue ? t(d.issue) : t('Disconnected'), time: relTime(d.lastSeen), status, who: act.who || null, deviceId: d.id });
-      } else if (d.state === 'degraded') {
-        out.push({ id: 'al-d-' + d.id, sev: 'warning', device: d.name, site: d.site || '—', msg: d.issue ? t(d.issue) : t('Connected with issues'), time: relTime(d.lastSeen), status, who: act.who || null, deviceId: d.id });
-      }
-      if (d.fwOld) {
-        out.push({ id: 'al-f-' + d.id, sev: 'info', device: d.name, site: d.site || '—', msg: t('Firmware behind fleet baseline ({v})', { v: store.baseline }), time: relTime(d.lastSeen), status: 'open', who: null, deviceId: d.id });
-      }
-    });
-    return out;
-  }
-
-  function setLocalAct(deviceId, patch) {
-    const next = { ...store.localActs, [deviceId]: { ...(store.localActs[deviceId] || {}), ...patch } };
-    setState({ localActs: next });
-  }
-
   function relTime(iso) {
     if (!iso) return '—';
     const ts = Date.parse(iso);
@@ -249,8 +211,8 @@
   window.WRF_DATA = {
     SITES, STATE_LABEL, STATE_VAR, ACTIVITY_DEMO,
     store, subscribe, useStore, setState,
-    loadDemo, setLive, patchDevice, mergeDevice, setLocalAct, buildWorkspaces, applyLiveStatus,
-    counts, sites, alerts, relTime, fmtUptime, firmwareSummary, cmpVer, cleanVer,
+    loadDemo, setLive, patchDevice, mergeDevice, buildWorkspaces, applyLiveStatus,
+    counts, sites, relTime, fmtUptime, firmwareSummary, cmpVer, cleanVer,
   };
 
   // Build workspaces for the initial demo fleet.
