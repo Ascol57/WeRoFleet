@@ -14,7 +14,7 @@ If the user invokes this skill without any other guidance, ask them what they wa
 - `styles.css` — link this one file for all tokens, fonts (IBM Plex), and both light + dark themes. Toggle dark with `data-theme="dark"`.
 - `tokens/` — color (cool slate + teal, five-state status palette), typography (dense scale), spacing (4px grid, layout rails), elevation (subtle cool shadows + motion).
 - `components/` — React primitives, exposed at `window.HelmRoomKitFleetDS_91f16f.<Name>` after loading `_ds_bundle.js`. See each `<Name>.prompt.md` for usage.
-- `ui_kits/console/` — full click-through fleet admin console (Overview, Devices + detail drawer, Alerts) to copy patterns from.
+- `ui_kits/console/` — full click-through fleet admin console (Overview, Devices + detail drawer, Workspaces, Config presets, Settings) to copy patterns from.
 - `guidelines/` — token specimen cards.
 - `assets/` — WeRoFleet logo + mark SVGs.
 

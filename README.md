@@ -2,8 +2,9 @@
 
 A calm, data-dense **fleet-management console** for IT/AV teams who run large
 estates of video-conferencing **room devices** (Room Kits, Room Bars, Boards).
-One pane of glass to see every device's live state, triage alerts, push
-firmware/branding presets, and drill into a single room's diagnostics.
+One pane of glass to see every device's live state, triage what needs
+attention, push firmware/branding presets, and drill into a single room's
+diagnostics.
 
 It ships as a **single, self-contained HTML file** — no build server, no
 install — and runs either against demo data or, with your own access token,
@@ -21,7 +22,6 @@ against a live Webex organization.
 - **Devices** — filterable/selectable table + a device-detail drawer (identity, health, live xAPI status, peripherals, history) with reboot.
 - **Workspaces** — select rooms and apply a configuration **preset** in one run.
 - **Config presets** — author reusable branding + call-button bundles; import/export as JSON.
-- **Alerts** — severity-ranked queue with acknowledge / resolve.
 - **Settings** — language, Webex API rate limit, polling cadence, connection.
 - **Live Webex integration** — connect with a personal/integration bearer token; demo mode otherwise.
 - **Multilingual (EN · FR · DE · LB)** — English, French, German, and Luxembourgish; auto-detects the browser language, switch any time from the top bar or Settings, choice is remembered.
@@ -124,11 +124,11 @@ tokens only (`--surface-card`, `--text-primary`, `--status-critical`) so light
 This project is released under a **custom non-commercial, source-available
 license** — see **[LICENSE](LICENSE)**.
 
-- ✅ Use, copy, and **modify** for non-commercial purposes.
-- ✅ The **University of Luxembourg** is granted use and modification rights for its institutional purposes.
-- ❌ **No commercial use, and no selling** the software or derivatives.
+- Use, copy, and **modify** for non-commercial purposes.
+- The **University of Luxembourg** is granted use and modification rights for its institutional purposes.
+- **No commercial use, and no selling** the software or derivatives.
 
-© 2026 Constant Rusche.
+2026 Constant Rusche.
 
 Bundled third-party components keep their own licenses: React/ReactDOM and Babel
 (MIT), Lucide (ISC), IBM Plex fonts (SIL OFL 1.1).

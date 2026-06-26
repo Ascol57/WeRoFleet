@@ -1,7 +1,7 @@
 /* WeRoFleet Console — app shell: Sidebar + TopBar + AppShell (window-scoped) */
 (function () {
   const { useEffect } = React;
-  const { Avatar, IconButton, Badge, Input, Tooltip } = window.HelmRoomKitFleetDS_91f16f;
+  const { Avatar, IconButton, Input, Tooltip } = window.HelmRoomKitFleetDS_91f16f;
   const { t } = window.WRF_I18N;
   const I = (n, s) => React.createElement('i', { 'data-lucide': n, style: s });
 
@@ -88,8 +88,6 @@
             : React.createElement('button', { key: n.id, className: 'wrf-nav-item', 'data-active': active === n.id ? 'true' : undefined, onClick: () => onNav(n.id) },
                 I(n.icon),
                 React.createElement('span', null, t(n.label)),
-                n.badgeKey && counts[n.badgeKey] > 0 ? React.createElement('span', { className: 'wrf-nav-grow' },
-                  React.createElement(Badge, { tone: 'critical', shape: 'pill' }, counts[n.badgeKey])) : null,
                 n.countKey ? React.createElement('span', { className: 'wrf-nav-grow', style: { fontSize: 11, color: 'var(--text-tertiary)', fontVariantNumeric: 'tabular-nums' } }, counts[n.countKey]) : null,
               )
           ),

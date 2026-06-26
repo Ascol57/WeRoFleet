@@ -1,4 +1,4 @@
-# WeRoFleet — Erste Schritte (Universität Luxemburg) 🇩🇪
+# WeRoFleet — Erste Schritte (Universität Luxemburg)
 
 Diese Anleitung führt Sie Schritt für Schritt durch alles — von der Installation
 bis zur Verwaltung Ihrer echten Flotte von Webex-Raumgeräten (Room Kits, Room
@@ -8,7 +8,7 @@ WeRoFleet ist eine **100 % lokale Web-Konsole**: eine einzige HTML-Datei, die in
 Ihrem Browser läuft. Es werden keine Daten irgendwohin gesendet — Ihr
 Webex-Token bleibt auf Ihrem Rechner und spricht nur mit den Servern von Webex.
 
-> 🌍 Auch verfügbar in: [Français](UNILU_FR.md) · [English](UNILU_EN.md) · [Lëtzebuergesch](UNILU_LB.md)
+> Auch verfügbar in: [Français](UNILU_FR.md) · [English](UNILU_EN.md) · [Lëtzebuergesch](UNILU_LB.md)
 
 ---
 
@@ -72,7 +72,7 @@ Darin finden Sie:
    ```
 2. **Lassen Sie das Terminal offen.** Port ändern: `PORT=9000 ./webex-proxy.sh`.
 
-➡️ Nach dem Start lauscht der Proxy auf **`http://localhost:8788`**.
+Nach dem Start lauscht der Proxy auf **`http://localhost:8788`**.
 Zum Beenden, wenn Sie fertig sind: **Strg + C** (oder Fenster schließen).
 
 ---
@@ -84,7 +84,7 @@ Zum Beenden, wenn Sie fertig sind: **Strg + C** (oder Fenster schließen).
 3. **Klicken Sie auf Ihr Avatar**: Ihr persönliches **Bearer-Token** wird
    angezeigt. Klicken Sie auf **Copy**, um es zu kopieren.
 
-> ⚠️ Dieses persönliche Token ist **vorübergehend** (~12 Std.) und an Ihre
+> Dieses persönliche Token ist **vorübergehend** (~12 Std.) und an Ihre
 > eigenen Rechte gebunden. Für Tests genügt es. Für den dauerhaften Einsatz
 > erstellen Sie besser eine *Integration* mit den passenden Berechtigungen.
 >
@@ -109,12 +109,12 @@ Zum Beenden, wenn Sie fertig sind: **Strg + C** (oder Fenster schließen).
    ```
 6. Klicken Sie auf **Connect**.
 
-Ihre echten Räume werden geladen. ✅
+Ihre echten Räume werden geladen.
 
-> 💡 **Tipp** — Sie können auch auf **„Use demo data"** klicken, um die
+> **Tipp** — Sie können auch auf **„Use demo data"** klicken, um die
 > Oberfläche ohne Verbindung mit einem fiktiven Datensatz zu erkunden.
 >
-> 🔒 Ihr Token wird **nur** im lokalen Speicher dieses Browsers abgelegt und
+> Ihr Token wird **nur** im lokalen Speicher dieses Browsers abgelegt und
 > direkt an Webex gesendet. Nichts wird zu WeRoFleet hochgeladen.
 
 ---
@@ -123,14 +123,14 @@ Ihre echten Räume werden geladen. ✅
 
 Nach dem Verbinden stehen mehrere Bildschirme zur Verfügung (Menü links).
 
-### 🖥️ Overview (Übersicht)
+### Overview (Übersicht)
 Das Flotten-Dashboard:
 - Kennzahlen: **Geräte gesamt, online, im Anruf, Aufmerksamkeit nötig**;
 - eine **Flotten-Gesundheitsleiste** nach Betriebszustand;
 - eine **„Needs attention"**-Liste (beeinträchtigte oder kritische Geräte);
 - eine **Export**-Verknüpfung.
 
-### 📡 Devices (Geräte)
+### Devices (Geräte)
 Die detaillierte Tabelle aller Geräte:
 - **Filter** (Alle / Aufmerksamkeit nötig / Im Anruf) und **Suche**;
 - Filterung nach **Standort**;
@@ -142,16 +142,16 @@ Die detaillierte Tabelle aller Geräte:
 > Der Neustart prüft zuerst, ob das Gerät **in einem Anruf** ist, bevor er
 > ausgeführt wird.
 
-### 🏢 Workspaces (Arbeitsbereiche) — Deployment
+### Workspaces (Arbeitsbereiche) — Deployment
 Um eine **Konfiguration auf viele Räume gleichzeitig** anzuwenden:
 1. Haken Sie die gewünschten Räume an (filterbar nach **Gebäude** + Suche).
 2. Wählen Sie ein **Preset** aus der Liste.
-3. Klicken Sie auf **Apply preset** 🚀.
+3. Klicken Sie auf **Apply preset**.
 
 Nur **geeignete Geräte** (Zielmodelle) erhalten die Konfiguration. Ein
 Fortschrittsfenster zeigt das Ergebnis (Erfolge / Fehler) in Echtzeit.
 
-### 🎨 Config presets (wiederverwendbare Konfigurationen)
+### Config presets (wiederverwendbare Konfigurationen)
 Erstellen Sie wiederverwendbare **Konfigurationspakete**:
 - **Branding** (*Halfwake*-Logo, Hintergrundbild im Anruf — automatisch
   skaliert), **eigene Nachricht**, **Anruf-Schaltflächen**;
@@ -163,7 +163,7 @@ Jedes Preset entspricht denselben Webex-Routen (`Branding.Upload`,
 `CustomMessage`, `UserInterface.Features.Call.*`). Sie **erstellen sie hier** und
 **wenden sie dann aus Workspaces an**.
 
-### ⚙️ Settings (Einstellungen)
+### Settings (Einstellungen)
 - **Sprache** der Oberfläche: **EN · FR · DE · LB** (pro Browser gespeichert,
   beim ersten Start automatisch erkannt).
 - **Webex API rate limit**: max. Anfragen pro Sekunde (Standard **3/s**,

@@ -1,4 +1,4 @@
-# WeRoFleet — Guide de démarrage (Université du Luxembourg) 🇫🇷
+# WeRoFleet — Guide de démarrage (Université du Luxembourg)
 
 Ce guide vous accompagne pas à pas, de l'installation jusqu'à la gestion réelle
 de votre flotte de salles Webex (Room Kits, Room Bars, Boards).
@@ -7,7 +7,7 @@ WeRoFleet est une **console web 100 % locale** : un seul fichier HTML qui tourne
 dans votre navigateur. Aucune donnée n'est envoyée ailleurs — votre jeton Webex
 reste sur votre poste et ne parle qu'aux serveurs de Webex.
 
-> 🌍 Disponible aussi en : [English](UNILU_EN.md) · [Deutsch](UNILU_DE.md) · [Lëtzebuergesch](UNILU_LB.md)
+> Disponible aussi en : [English](UNILU_EN.md) · [Deutsch](UNILU_DE.md) · [Lëtzebuergesch](UNILU_LB.md)
 
 ---
 
@@ -70,7 +70,7 @@ Ouvrez le dossier `proxy/` et lancez le script de **votre** système :
    ```
 2. **Laissez le terminal ouvert.** Pour changer de port : `PORT=9000 ./webex-proxy.sh`.
 
-➡️ Une fois lancé, le proxy écoute sur **`http://localhost:8788`**.
+Une fois lancé, le proxy écoute sur **`http://localhost:8788`**.
 Pour l'arrêter quand vous avez terminé : **Ctrl + C** (ou fermez la fenêtre).
 
 ---
@@ -82,7 +82,7 @@ Pour l'arrêter quand vous avez terminé : **Ctrl + C** (ou fermez la fenêtre).
 3. **Cliquez sur votre avatar** : votre **jeton (Bearer token)** personnel
    s'affiche. Cliquez sur **Copy** pour le copier.
 
-> ⚠️ Ce jeton personnel est **temporaire** (≈ 12 h) et lié à vos droits. Il
+> Ce jeton personnel est **temporaire** (≈ 12 h) et lié à vos droits. Il
 > suffit pour tester. Pour un usage durable, créez plutôt une *integration*
 > avec les permissions adéquates.
 >
@@ -106,12 +106,12 @@ Pour l'arrêter quand vous avez terminé : **Ctrl + C** (ou fermez la fenêtre).
    ```
 6. Cliquez sur **Connect**.
 
-Vos vraies salles se chargent. ✅
+Vos vraies salles se chargent.
 
-> 💡 **Astuce** — Vous pouvez aussi cliquer sur **« Use demo data »** pour
+> **Astuce** — Vous pouvez aussi cliquer sur **« Use demo data »** pour
 > explorer l'interface sans connexion, avec un jeu de données fictif.
 >
-> 🔒 Votre jeton est conservé **uniquement** dans le stockage local de ce
+> Votre jeton est conservé **uniquement** dans le stockage local de ce
 > navigateur et envoyé directement à Webex. Rien n'est téléversé vers WeRoFleet.
 
 ---
@@ -120,14 +120,14 @@ Vos vraies salles se chargent. ✅
 
 Une fois connecté, vous disposez de plusieurs écrans (menu de gauche).
 
-### 🖥️ Overview (Vue d'ensemble)
+### Overview (Vue d'ensemble)
 Le tableau de bord de la flotte :
 - métriques clés : **total d'appareils, en ligne, en appel, à surveiller** ;
 - barre de **santé de la flotte** par état opérationnel ;
 - liste **« Needs attention »** (appareils dégradés ou critiques) ;
 - raccourci **Export**.
 
-### 📡 Devices (Appareils)
+### Devices (Appareils)
 La table détaillée de tous les appareils :
 - **filtres** (Tous / À surveiller / En appel) et **recherche** ;
 - filtrage par **site** ;
@@ -138,16 +138,16 @@ La table détaillée de tous les appareils :
 
 > Le redémarrage vérifie d'abord si l'appareil est **en appel** avant d'agir.
 
-### 🏢 Workspaces (Espaces / Salles) — déploiement
+### Workspaces (Espaces / Salles) — déploiement
 Pour appliquer une **configuration à plusieurs salles d'un coup** :
 1. Cochez les salles voulues (filtrables par **bâtiment** + recherche).
 2. Choisissez un **preset** dans la liste.
-3. Cliquez sur **Apply preset** 🚀.
+3. Cliquez sur **Apply preset**.
 
 Seuls les **appareils éligibles** (modèles ciblés) reçoivent la config. Une
 fenêtre de progression affiche le résultat (réussites / échecs) en direct.
 
-### 🎨 Config presets (Configurations réutilisables)
+### Config presets (Configurations réutilisables)
 Créez des **bundles de configuration** réutilisables :
 - **branding** (logo *Halfwake*, fond d'écran d'appel — auto-redimensionnés),
   **message personnalisé**, **boutons d'appel** ;
@@ -159,7 +159,7 @@ Chaque preset correspond aux mêmes routes Webex (`Branding.Upload`,
 `CustomMessage`, `UserInterface.Features.Call.*`). On les **construit ici**,
 puis on les **applique depuis Workspaces**.
 
-### ⚙️ Settings (Réglages)
+### Settings (Réglages)
 - **Langue** de l'interface : **EN · FR · DE · LB** (mémorisée par navigateur,
   détectée automatiquement au premier lancement).
 - **Webex API rate limit** : nombre max de requêtes/seconde (défaut **3/s**,

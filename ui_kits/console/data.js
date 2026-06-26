@@ -1,7 +1,6 @@
 /* WeRoFleet Console — reactive store (demo + live Webex data) */
 (function () {
   const { t } = window.WRF_I18N;
-  const SITES = ['San Jose HQ', 'London', 'Sydney', 'Austin'];
 
   // ---- Demo fleet (used until a live Webex org is connected) ----
   const DEMO_DEVICES = [
@@ -22,15 +21,6 @@
     { id: 'd-15', name: 'Riverside Briefing', room: 'Floor 6',          site: 'Austin',      model: 'Room Kit Pro',  state: 'degraded', fw: '11.21.1.6', fwOld: false, uptime: '3d 09:12',  ip: '10.16.6.19',  serial: 'AUS2534RP6P', mac: 'C4:17:FE:33:19:41', issue: 'Display HDMI handshake errors', meeting: null },
   ];
 
-  const ACTIVITY_DEMO = [
-    { who: 'Priya Anand', action: 'rebooted', target: 'Huddle 2', time: '12m' },
-    { who: 'System',      action: 'pushed config to', target: '15 devices', time: '38m' },
-    { who: 'Marcus Lee',  action: 'acknowledged alert on', target: 'Camden Huddle', time: '1h' },
-    { who: 'Dana Cole',   action: 'scheduled update for', target: 'San Jose HQ', time: '2h' },
-    { who: 'System',      action: 'detected new device', target: 'Pecan Huddle', time: '4h' },
-  ];
-
-  const STATE_LABEL = { online: 'Online', incall: 'In call', degraded: 'Degraded', critical: 'Critical', offline: 'Offline' };
   const STATE_VAR = {
     online: 'var(--status-online)', incall: 'var(--status-incall)', degraded: 'var(--status-degraded)',
     critical: 'var(--status-critical)', offline: 'var(--status-offline)',
@@ -209,7 +199,7 @@
   }
 
   window.WRF_DATA = {
-    SITES, STATE_LABEL, STATE_VAR, ACTIVITY_DEMO,
+    STATE_VAR,
     store, subscribe, useStore, setState,
     loadDemo, setLive, patchDevice, mergeDevice, buildWorkspaces, applyLiveStatus,
     counts, sites, relTime, fmtUptime, firmwareSummary, cmpVer, cleanVer,

@@ -1,6 +1,6 @@
 # WeRoFleet — Design System
 
-**WeRoFleet Console** is a fleet-management admin tool for IT and AV teams who run large estates of video-conferencing **room devices** (Room Kits, Room Bars, Boards). It is the single pane of glass where an admin sees every device's live state, triages alerts, pushes firmware, and drills into a single room's diagnostics.
+**WeRoFleet Console** is a fleet-management admin tool for IT and AV teams who run large estates of video-conferencing **room devices** (Room Kits, Room Bars, Boards). It is the single pane of glass where an admin sees every device's live state, triages what needs attention, pushes firmware, and drills into a single room's diagnostics.
 
 > **Not affiliated with Webex or Cisco.** "Room Kit" is used generically to describe a class of meeting-room hardware. WeRoFleet is an independent, fictional product; all device names, serials, and data in this system are invented for demonstration.
 
@@ -92,7 +92,7 @@ Used sparingly: the modal/drawer scrim is a flat translucent slate. Frosted blur
 ## ICONOGRAPHY
 
 - **System: [Lucide](https://lucide.dev) (v0.456.0), loaded from CDN.** Clean 1.5px-stroke open-line icons that pair naturally with IBM Plex's humanist forms. This is a **deliberate substitution** for a proprietary icon set (none was provided) — Lucide's stroke weight and geometry match the calm, technical tone. **Flag for the user:** if WeRoFleet has its own icon library, swap the CDN link and re-map names.
-- **Usage:** rendered as `<i data-lucide="name"></i>` then `lucide.createIcons()`. Sizes 12–22px; inherit `currentColor`. Common glyphs: `monitor` (device), `video` (in call), `bell` (alerts), `alert-octagon/triangle` (critical/warning), `rotate-cw` (reboot), `upload-cloud`/`download-cloud` (firmware), `layout-dashboard`, `door-open`, `settings`, `chevron-right`.
+- **Usage:** rendered as `<i data-lucide="name"></i>` then `lucide.createIcons()`. Sizes 12–22px; inherit `currentColor`. Common glyphs: `monitor` (device), `video` (in call), `alert-octagon/triangle` (critical/warning), `rotate-cw` (reboot), `upload-cloud`/`download-cloud` (firmware), `layout-dashboard`, `door-open`, `settings`, `chevron-right`.
 - **Status is never icon-only** — status uses the colored dot + label (`StatusBadge`); icons add meaning but color + text carry it (accessibility).
 - **No emoji. No Unicode-as-icon.** All glyphs come from Lucide.
 - **Logo:** the WeRoFleet wordmark + mark live in `assets/` as SVG (light, on-dark, and standalone mark variants). The mark is a stylized signal/fleet glyph in teal.
@@ -123,15 +123,29 @@ Used sparingly: the modal/drawer scrim is a flat translucent slate. Frosted blur
 Each component dir has `<Name>.jsx` (impl), `<Name>.d.ts` (props/contract), `<Name>.prompt.md` (usage), and one `*.card.html` thumbnail for the Design System tab.
 
 ### `ui_kits/console/` — Fleet Console (the product)
-A click-through admin console composing the primitives above.
-- `index.html` — entry (light/dark toggle, persisted nav).
-- `data.js` — fake fleet (15 devices, alerts, activity).
-- `Shell.js` — sidebar + top bar app shell.
-- `Overview.jsx` — dashboard: health metrics, fleet-state bar, firmware coverage, attention list, activity.
-- `Devices.jsx` — filterable/selectable device table **+ device-detail drawer** (identity, health, peripherals, history).
-- `Alerts.jsx` — severity-ranked alert queue with acknowledge/resolve.
-- `App.jsx` — routing, theme, drawer state.
+A click-through admin console composing the primitives above. Plain `<script>`s
+(no bundler): `*.view.jsx` screens are transpiled in-browser by Babel in dev and
+pre-compiled by the bundler for the single-file build. Each screen registers a
+`window.WRF_*` global.
+
+- `index.html` — entry (light/dark toggle, persisted nav, first-run splash, dev CSP).
+- `app.boot.jsx` — root app: store wiring, Webex auto-connect, routing, theme, toasts.
+- `shell.runtime.js` — sidebar + top-bar app shell (nav, global search, connection status).
+- `overview.view.jsx` — dashboard: health metrics, fleet-state bar, firmware coverage, "needs attention" list.
+- `devices.view.jsx` — filterable/selectable device table **+ device-detail drawer** (identity, health, live xAPI status, peripherals, history) with reboot.
+- `workspaces.view.jsx` — select rooms and apply a config preset in one run.
+- `presets.view.jsx` — author reusable config presets; import/export as JSON.
+- `branding.view.jsx` — per-device branding editor (opened from the device drawer).
+- `connect.view.jsx` — Webex connect modal (token, org id, optional CORS proxy).
+- `settings.view.jsx` — language, Webex API rate limit, polling cadence, connection.
+- `data.js` — reactive store + demo fleet (15 devices).
+- `webex.js` — Webex API client (devices, xAPI status/commands, branding).
+- `poller.js` — background low-priority fleet status sweep.
+- `presets.js` — preset model + local storage.
+- `request-manager.js` — rate-limited request queue with 429 backoff.
+- `i18n.js` + `i18n.{fr,de,lb}.js` — i18n runtime + dictionaries.
 - `console.css` — kit-local layout (uses DS tokens only).
+- `proxy/` — optional local CORS-proxy launchers (macOS/Windows/Linux).
 
 ### `guidelines/` — foundation specimen cards
 Small `@dsCard` HTML files rendering the live tokens: color ramps (primary/neutral/status/semantic), type (scale/families/numerics), spacing (scale/radii/elevation/motion), and brand (logo).

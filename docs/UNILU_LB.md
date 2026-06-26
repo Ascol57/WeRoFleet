@@ -1,4 +1,4 @@
-# WeRoFleet — Lass leeën (Universitéit Lëtzebuerg) 🇱🇺
+# WeRoFleet — Lass leeën (Universitéit Lëtzebuerg)
 
 Dëse Guide begleet Iech Schrëtt fir Schrëtt, vun der Installatioun bis zur
 richteger Gestioun vun ärer Flott vu Webex-Raumgeräter (Room Kits, Room Bars,
@@ -8,7 +8,7 @@ WeRoFleet ass eng **100 % lokal Web-Konsol**: eng eenzeg HTML-Datei, déi an är
 Browser leeft. Et gi keng Donnéeën iergendwouhin geschéckt — äre Webex-Token
 bleift op ärem Apparat a schwätzt nëmme mat de Serveren vu Webex.
 
-> 🌍 Och verfügbar op: [Français](UNILU_FR.md) · [English](UNILU_EN.md) · [Deutsch](UNILU_DE.md)
+> Och verfügbar op: [Français](UNILU_FR.md) · [English](UNILU_EN.md) · [Deutsch](UNILU_DE.md)
 
 ---
 
@@ -72,7 +72,7 @@ Maacht den Dossier `proxy/` op a start de Skript fir **äert** System:
    ```
 2. **Loosst den Terminal op.** Fir de Port z'änneren: `PORT=9000 ./webex-proxy.sh`.
 
-➡️ Eemol gestart, lauschtert de Proxy op **`http://localhost:8788`**.
+Eemol gestart, lauschtert de Proxy op **`http://localhost:8788`**.
 Fir en ze stoppen, wann Dir fäerdeg sidd: **Ctrl + C** (oder d'Fënster zoumaachen).
 
 ---
@@ -84,7 +84,7 @@ Fir en ze stoppen, wann Dir fäerdeg sidd: **Ctrl + C** (oder d'Fënster zoumaac
 3. **Klickt op äre Avatar**: äre perséinlechen **Bearer-Token** gëtt
    ugewisen. Klickt op **Copy** fir en ze kopéieren.
 
-> ⚠️ Dëse perséinlechen Token ass **temporär** (~12 St.) a mat ären eegene
+> Dëse perséinlechen Token ass **temporär** (~12 St.) a mat ären eegene
 > Rechter verbonnen. Fir Tester duer en. Fir e dauerhaften Asaz maacht Dir besser
 > eng *Integration* mat de passende Berechtegungen.
 >
@@ -108,12 +108,12 @@ Fir en ze stoppen, wann Dir fäerdeg sidd: **Ctrl + C** (oder d'Fënster zoumaac
    ```
 6. Klickt op **Connect**.
 
-Är richteg Raim ginn gelueden. ✅
+Är richteg Raim ginn gelueden.
 
-> 💡 **Tipp** — Dir kënnt och op **„Use demo data"** klicken, fir d'Interface
+> **Tipp** — Dir kënnt och op **„Use demo data"** klicken, fir d'Interface
 > ouni Verbindung mat engem fiktiven Datesaz z'entdecken.
 >
-> 🔒 Äre Token gëtt **nëmmen** am lokale Späicher vun dësem Browser behalen an
+> Äre Token gëtt **nëmmen** am lokale Späicher vun dësem Browser behalen an
 > direkt op Webex geschéckt. Et gëtt näischt op WeRoFleet eropgelueden.
 
 ---
@@ -122,14 +122,14 @@ Fir en ze stoppen, wann Dir fäerdeg sidd: **Ctrl + C** (oder d'Fënster zoumaac
 
 Eemol verbonnen, stinn e puer Bildschirmer zur Verfügung (Menü lénks).
 
-### 🖥️ Overview (Iwwerbléck)
+### Overview (Iwwerbléck)
 Den Dashboard vun der Flott:
 - Schlësselzuelen: **Apparater am Ganzen, online, am Uruff, brauch Opmierksamkeet**;
 - eng **Flott-Gesondheets-Bar** no Betribszoustand;
 - eng **„Needs attention"**-Lëscht (degradéiert oder kritesch Apparater);
 - eng **Export**-Ofkierzung.
 
-### 📡 Devices (Apparater)
+### Devices (Apparater)
 Déi detailléiert Tabell vun alle Apparater:
 - **Filteren** (All / Brauch Opmierksamkeet / Am Uruff) an **Sich**;
 - Filtere no **Site**;
@@ -141,16 +141,16 @@ Déi detailléiert Tabell vun alle Apparater:
 > De Reboot kontrolléiert fir d'éischt, ob den Apparat **an engem Uruff** ass,
 > ier en handelt.
 
-### 🏢 Workspaces (Aarbechtsraim) — Deployment
+### Workspaces (Aarbechtsraim) — Deployment
 Fir eng **Konfiguratioun op vill Raim op eemol** unzewenden:
 1. Haakt déi gewënschte Raim un (filterbar no **Gebai** + Sich).
 2. Wielt e **Preset** aus der Lëscht.
-3. Klickt op **Apply preset** 🚀.
+3. Klickt op **Apply preset**.
 
 Nëmmen **passend Apparater** (Zilmodeller) kréien d'Konfiguratioun. Eng
 Fortschrëttsfënster weist d'Resultat (Succès / Echecen) live.
 
-### 🎨 Config presets (erëmverwennbar Konfiguratiounen)
+### Config presets (erëmverwennbar Konfiguratiounen)
 Erstellt erëmverwennbar **Konfiguratiounspäck**:
 - **Branding** (*Halfwake*-Logo, Hannergrond am Uruff — automatesch
   ugepasst), **eege Message**, **Uruff-Knäppercher**;
@@ -162,7 +162,7 @@ All Preset entsprécht deene selwechte Webex-Routen (`Branding.Upload`,
 `CustomMessage`, `UserInterface.Features.Call.*`). Dir **baut se hei** a
 **wennt se dann aus Workspaces un**.
 
-### ⚙️ Settings (Astellungen)
+### Settings (Astellungen)
 - **Sprooch** vun der Interface: **EN · FR · DE · LB** (pro Browser gespäichert,
   beim éischte Start automatesch erkannt).
 - **Webex API rate limit**: max. Ufroen pro Sekonn (Standard **3/s**,

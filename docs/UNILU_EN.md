@@ -1,4 +1,4 @@
-# WeRoFleet — Getting Started (University of Luxembourg) 🇬🇧
+# WeRoFleet — Getting Started (University of Luxembourg)
 
 This guide walks you through everything, from installation to managing your real
 fleet of Webex meeting-room devices (Room Kits, Room Bars, Boards).
@@ -7,7 +7,7 @@ WeRoFleet is a **100 % local web console**: a single HTML file that runs in your
 browser. No data is sent anywhere — your Webex token stays on your machine and
 only ever talks to Webex's servers.
 
-> 🌍 Also available in: [Français](UNILU_FR.md) · [Deutsch](UNILU_DE.md) · [Lëtzebuergesch](UNILU_LB.md)
+> Also available in: [Français](UNILU_FR.md) · [Deutsch](UNILU_DE.md) · [Lëtzebuergesch](UNILU_LB.md)
 
 ---
 
@@ -69,7 +69,7 @@ Open the `proxy/` folder and run the script for **your** system:
    ```
 2. **Leave the terminal open.** To change the port: `PORT=9000 ./webex-proxy.sh`.
 
-➡️ Once running, the proxy listens on **`http://localhost:8788`**.
+Once running, the proxy listens on **`http://localhost:8788`**.
 To stop it when you're done: **Ctrl + C** (or close the window).
 
 ---
@@ -81,7 +81,7 @@ To stop it when you're done: **Ctrl + C** (or close the window).
 3. **Click your avatar**: your personal **Bearer token** is shown. Click
    **Copy** to copy it.
 
-> ⚠️ This personal token is **temporary** (~12 h) and tied to your own rights.
+> This personal token is **temporary** (~12 h) and tied to your own rights.
 > It's enough for testing. For lasting use, create an *integration* with the
 > proper permissions instead.
 >
@@ -105,12 +105,12 @@ To stop it when you're done: **Ctrl + C** (or close the window).
    ```
 6. Click **Connect**.
 
-Your real rooms load. ✅
+Your real rooms load.
 
-> 💡 **Tip** — You can also click **"Use demo data"** to explore the interface
+> **Tip** — You can also click **"Use demo data"** to explore the interface
 > without connecting, using a fictional dataset.
 >
-> 🔒 Your token is stored **only** in this browser's local storage and sent
+> Your token is stored **only** in this browser's local storage and sent
 > directly to Webex. Nothing is uploaded to WeRoFleet.
 
 ---
@@ -119,14 +119,14 @@ Your real rooms load. ✅
 
 Once connected, several screens are available (left-hand menu).
 
-### 🖥️ Overview
+### Overview
 The fleet dashboard:
 - key metrics: **total devices, online, in call, needs attention**;
 - a **fleet-health** bar by operational state;
 - a **"Needs attention"** list (degraded or critical devices);
 - an **Export** shortcut.
 
-### 📡 Devices
+### Devices
 The detailed table of all devices:
 - **filters** (All / Needs attention / In call) and **search**;
 - filtering by **site**;
@@ -136,16 +136,16 @@ The detailed table of all devices:
 
 > Rebooting first checks whether the device is **in a call** before acting.
 
-### 🏢 Workspaces — deployment
+### Workspaces — deployment
 To apply a **configuration to many rooms at once**:
 1. Tick the rooms you want (filterable by **building** + search).
 2. Pick a **preset** from the list.
-3. Click **Apply preset** 🚀.
+3. Click **Apply preset**.
 
 Only **eligible devices** (target models) receive the config. A progress window
 shows the result (successes / failures) live.
 
-### 🎨 Config presets (reusable configurations)
+### Config presets (reusable configurations)
 Build reusable **configuration bundles**:
 - **branding** (*Halfwake* logo, in-call wallpaper — auto-resized),
   **custom message**, **call buttons**;
@@ -157,7 +157,7 @@ Each preset maps to the same Webex routes (`Branding.Upload`, `CustomMessage`,
 `UserInterface.Features.Call.*`). You **build them here**, then **apply them from
 Workspaces**.
 
-### ⚙️ Settings
+### Settings
 - **Interface language**: **EN · FR · DE · LB** (remembered per browser,
   auto-detected on first launch).
 - **Webex API rate limit**: max requests per second (default **3/s**,

@@ -30,7 +30,7 @@
   // Confirm a single-device reboot, warning hard if it's currently in a call.
   async function confirmReboot(d) {
     if (await liveInCall(d)) {
-      return window.confirm(t('⚠\uFE0F {name} is currently IN A CALL. Rebooting will disconnect everyone on it.\n\nReboot anyway?', { name: d.name }));
+      return window.confirm(t('{name} is currently IN A CALL. Rebooting will disconnect everyone on it.\n\nReboot anyway?', { name: d.name }));
     }
     return window.confirm(t('Reboot {name}? It will briefly go offline.', { name: d.name }));
   }
@@ -86,7 +86,7 @@
       let msg = t('Reboot {count} device(s)? They will briefly go offline.', { count: targets.length });
       if (busy.length) {
         const names = busy.slice(0, 3).map((d) => d.name).join(', ') + (busy.length > 3 ? t(', +{count} more', { count: busy.length - 3 }) : '');
-        msg = t('⚠\uFE0F {busy} of {total} selected device(s) are IN A CALL ({names}). Rebooting will disconnect them.\n\nReboot all anyway?', { busy: busy.length, total: targets.length, names });
+        msg = t('{busy} of {total} selected device(s) are IN A CALL ({names}). Rebooting will disconnect them.\n\nReboot all anyway?', { busy: busy.length, total: targets.length, names });
       }
       if (!window.confirm(msg)) return;
       notify(t('Rebooting {count} devices…', { count: targets.length }), 'neutral');

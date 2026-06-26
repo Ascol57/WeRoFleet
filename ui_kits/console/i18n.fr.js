@@ -6,8 +6,8 @@
    segmented controls; universally understood). */
 window.__WRF_FR_DICT = {
   'Français': 'Français',
-  '⚠️ {name} is currently IN A CALL. Rebooting will disconnect everyone on it.\n\nReboot anyway?': '⚠️ {name} est ACTUELLEMENT EN APPEL. Le redémarrage déconnectera tout le monde.\n\nRedémarrer quand même ?',
-  '⚠️ {busy} of {total} selected device(s) are IN A CALL ({names}). Rebooting will disconnect them.\n\nReboot all anyway?': '⚠️ {busy} des {total} appareil(s) sélectionné(s) sont EN APPEL ({names}). Le redémarrage les déconnectera.\n\nTout redémarrer quand même ?',
+  '{name} is currently IN A CALL. Rebooting will disconnect everyone on it.\n\nReboot anyway?': '{name} est ACTUELLEMENT EN APPEL. Le redémarrage déconnectera tout le monde.\n\nRedémarrer quand même ?',
+  '{busy} of {total} selected device(s) are IN A CALL ({names}). Rebooting will disconnect them.\n\nReboot all anyway?': '{busy} des {total} appareil(s) sélectionné(s) sont EN APPEL ({names}). Le redémarrage les déconnectera.\n\nTout redémarrer quand même ?',
   // ---- shell: nav, sidebar, top bar ----
   'Fleet': 'Parc',
   'Configure': 'Configurer',
