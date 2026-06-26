@@ -59,6 +59,11 @@ class Proxy(BaseHTTPRequestHandler):
             self.end_headers()
             return
 
+        # Only relay the Webex API surface (/v1/...). Refuse anything else so this
+        # loopback helper can't be used as a general relay to webexapis.com.
+        if not (self.path == "/v1" or self.path.startswith("/v1/") or self.path.startswith("/v1?")):
+            return self._send_json(403, {"message": "proxy: only /v1 paths are forwarded"})
+
         length = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(length) if length else None
 

@@ -6,7 +6,8 @@
   const KEY = 'wrf-presets-v1';
   const CALL_KEYS = [
     ['JoinWebex', 'Webex'],
-    ['JoinMicrosoftTeamsDirectGuestJoin', 'Microsoft Teams'],
+    ['JoinMicrosoftTeamsCVI', 'Microsoft Teams CVI'],
+    ['JoinMicrosoftTeamsDirectGuestJoin', 'Microsoft Teams Direct Guest Join'],
     ['JoinGoogleMeet', 'Google Meet'],
     ['JoinZoom', 'Zoom'],
   ];
@@ -20,10 +21,45 @@
   ];
   const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
+  // Wallpaper bundle selection. 'auto' = leave unchanged; 'first'/'last' resolve
+  // against the device's WallpaperBundle.List; 'custom' uses a human 1-based
+  // position (1..256) that maps to the 0-based list index at apply time.
+  const WB_MODES = ['auto', 'first', 'last', 'custom'];
+  const WB_MIN = 1, WB_MAX = 256;
+  // Accent is injected into inline styles (swatches, color-mix). Only allow a
+  // hex color so an imported preset can't smuggle in another CSS value/function.
+  const ACCENT_RE = /^#[0-9a-f]{3,8}$/i;
+  function safeAccent(c) { return ACCENT_RE.test(c) ? c : '#0E7C86'; }
+  function wbNum(v) {
+    const n = parseInt(v, 10);
+    if (!isFinite(n)) return WB_MIN;
+    return Math.max(WB_MIN, Math.min(WB_MAX, n));
+  }
+  // 0-based index into a bundle list of `count` entries, clamped to its bounds.
+  function wbIndex(p, count) {
+    if (!count || count < 1) return -1;
+    if (p.wallpaperBundleMode === 'first') return 0;
+    if (p.wallpaperBundleMode === 'last') return count - 1;
+    return Math.min(wbNum(p.wallpaperBundleIndex) - 1, count - 1);
+  }
+  // Short label for the chosen bundle (badge + apply log).
+  function wbLabel(p) {
+    if (p.wallpaperBundleMode === 'first') return t('First');
+    if (p.wallpaperBundleMode === 'last') return t('Last');
+    return '#' + wbNum(p.wallpaperBundleIndex);
+  }
+
   function normImg(img) {
-    return img && img.base64
-      ? { name: img.name || 'image', size: img.size || 0, base64: img.base64, url: img.url || ('data:image/png;base64,' + img.base64) }
-      : null;
+    if (!img || !img.base64) return null;
+    // Reject anything that isn't clean base64, and rebuild the data: URL from it
+    // ourselves — never trust an imported `url` field (it could point off-origin
+    // or be a non-image data: payload and end up in <img src> / CSS url()).
+    const b64 = String(img.base64).replace(/\s+/g, '');
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(b64)) return null;
+    let mime = 'image/png';
+    const m = typeof img.url === 'string' && img.url.match(/^data:(image\/(?:png|jpeg|webp|gif));base64,/i);
+    if (m) mime = m[1].toLowerCase();
+    return { name: String(img.name || 'image').slice(0, 200), size: Number(img.size) || 0, base64: b64, url: 'data:' + mime + ';base64,' + b64 };
   }
 
   // Branding modes: 'set' = upload image, 'remove' = Branding.Delete, 'auto' = leave unchanged.
@@ -37,6 +73,10 @@
       const v = p[t.key + 'Mode'];
       p[t.key + 'Mode'] = (v === 'on' || v === 'off' || v === 'auto') ? v : 'auto';
     });
+    // Wallpaper bundle defaults to 'auto' (older presets have no such field).
+    p.wallpaperBundleMode = WB_MODES.includes(p.wallpaperBundleMode) ? p.wallpaperBundleMode : 'auto';
+    p.wallpaperBundleIndex = wbNum(p.wallpaperBundleIndex);
+    p.accent = safeAccent(p.accent);
     return p;
   }
 
@@ -102,6 +142,7 @@
       image: null, imageMode: 'auto',
       bgImage: null, bgMode: 'auto',
       wallpaperOverlayMode: 'auto', dashboardMode: 'auto',
+      wallpaperBundleMode: 'auto', wallpaperBundleIndex: 1,
       customMessage: t('If help needed, please call 9911.'), useMessage: true,
       call: { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' }, useCall: true,
     };
@@ -112,6 +153,7 @@
     else if (p.imageMode === 'remove') a.push({ label: t('Halfwake: clear'), tone: 'degraded' });
     if (p.bgMode === 'set' && p.bgImage) a.push({ label: t('Background'), tone: 'neutral' });
     else if (p.bgMode === 'remove') a.push({ label: t('Background: clear'), tone: 'degraded' });
+    if (p.wallpaperBundleMode && p.wallpaperBundleMode !== 'auto') a.push({ label: t('Wallpaper bundle') + ': ' + wbLabel(p), tone: 'neutral' });
     if (p.useMessage && p.customMessage) a.push({ label: t('Message'), tone: 'neutral' });
     if (p.useCall && p.call) a.push({ label: t('Call buttons'), tone: 'neutral' });
     VALUE_TOGGLES.forEach((tog) => {
@@ -144,11 +186,13 @@
       id: 'pr-' + Math.random().toString(36).slice(2, 8),
       name: String(raw.name || t('Imported preset')),
       description: String(raw.description || ''),
-      accent: raw.accent || '#0E7C86',
+      accent: safeAccent(raw.accent),
       image: img, imageMode: mode(raw.imageMode, raw.useImage),
       bgImage: bg, bgMode: mode(raw.bgMode, raw.useBgImage),
       wallpaperOverlayMode: ['on', 'off', 'auto'].includes(raw.wallpaperOverlayMode) ? raw.wallpaperOverlayMode : 'auto',
       dashboardMode: ['on', 'off', 'auto'].includes(raw.dashboardMode) ? raw.dashboardMode : 'auto',
+      wallpaperBundleMode: WB_MODES.includes(raw.wallpaperBundleMode) ? raw.wallpaperBundleMode : 'auto',
+      wallpaperBundleIndex: wbNum(raw.wallpaperBundleIndex),
       customMessage: raw.customMessage != null ? String(raw.customMessage) : '',
       useMessage: raw.useMessage !== false,
       call: normalizeCall(raw.call), useCall: raw.useCall !== false,
@@ -194,6 +238,20 @@
         }
         // 'auto' → leave unchanged
       }
+      if (p.wallpaperBundleMode && p.wallpaperBundleMode !== 'auto') {
+        const id = start(t('Wallpaper bundle') + ' → ' + wbLabel(p));
+        try {
+          if (live) {
+            const bundles = await WX.listWallpaperBundles(d.id);
+            const idx = wbIndex(p, bundles.length);
+            if (idx < 0) throw new Error(t('No wallpaper bundles on this device'));
+            const b = bundles[idx];
+            await WX.setWallpaperBundle(d.id, b.name);
+            fin(id, 'ok', b.name);
+          } else { await delay(220); fin(id, 'ok'); }
+        } catch (e) { fin(id, 'err', e.message); }
+        await delay(200);
+      }
       if (p.useMessage && p.customMessage != null) {
         const id = start(t('Set CustomMessage'));
         try { if (live) await WX.setCustomMessage(d.id, p.customMessage); else await delay(180); fin(id, 'ok'); }
@@ -232,5 +290,6 @@
     all, get, upsert, remove, duplicate, blank, actions, useStore, subscribe, apply,
     exportAll, exportOne, importJSON,
     CALL_KEYS, IMAGE_TYPE, BG_TYPE, VALUE_TOGGLES, loadApplied, recordApplied,
+    WB_MODES, WB_MIN, WB_MAX, wbNum, wbLabel,
   };
 })();

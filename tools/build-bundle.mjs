@@ -160,6 +160,12 @@ let html = read(ENTRY);
 // precede the doctype, so the template starts at <!DOCTYPE html>.
 html = html.replace(/^﻿?(?:\s*<!--[\s\S]*?-->)*\s*(?=<!DOCTYPE)/i, '');
 
+// Drop the DEV Content-Security-Policy meta: it's looser (allows CDN + eval) and
+// a meta CSP inside the swapped-in template isn't enforced anyway. The stricter
+// production CSP lives in the bundler shell head (bundler-shell.html).
+html = html.replace(/\s*<!--[^>]*Content-Security-Policy[\s\S]*?-->\s*/i, '\n');
+html = html.replace(/\s*<meta\s+http-equiv=["']Content-Security-Policy["'][^>]*>\s*/i, '\n');
+
 // CSS: <link rel="stylesheet"> -> inlined <style>
 html = html.replace(/<link\b[^>]*\brel=["']stylesheet["'][^>]*>/gi, (tag) => {
   const href = (tag.match(/\bhref=["']([^"']+)["']/i) || [])[1];

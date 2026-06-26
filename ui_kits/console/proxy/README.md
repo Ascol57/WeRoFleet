@@ -38,3 +38,18 @@ Paste your bearer token + org-id and connect as usual. Stop the proxy with
 
 The proxy preserves the `Retry-After` header, so the console's 429 backoff keeps
 working through it.
+
+## Security notes
+
+- **Loopback only.** All three launchers bind to `127.0.0.1` / `localhost`, so the
+  proxy is not reachable from other machines on your network.
+- **Webex API only.** The proxy forwards a fixed target (`webexapis.com`) and only
+  relays `/v1/...` paths — every other path is refused with `403`. It cannot be
+  pointed at any other host.
+- **Run it only while connecting, then stop it.** While running it accepts
+  requests from any local page (CORS is `*`). It carries no token of its own and
+  can't read your stored token, so the practical risk is low — but there's no
+  reason to leave it running once the console has loaded. Close the window /
+  press **Ctrl+C** when done.
+- **Your token** travels browser → `localhost` → Webex over TLS. Nothing is
+  logged or uploaded.

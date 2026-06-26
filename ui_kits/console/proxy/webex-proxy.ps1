@@ -26,6 +26,13 @@ while ($listener.IsListening) {
 
   if ($req.HttpMethod -eq 'OPTIONS') { $res.StatusCode = 204; $res.Close(); continue }
 
+  # Only relay the Webex API surface (/v1/...) — not a general relay to webexapis.com.
+  if ($req.RawUrl -ne '/v1' -and -not $req.RawUrl.StartsWith('/v1/') -and -not $req.RawUrl.StartsWith('/v1?')) {
+    $res.StatusCode = 403
+    $b = [System.Text.Encoding]::UTF8.GetBytes('{"message":"proxy: only /v1 paths are forwarded"}')
+    $res.OutputStream.Write($b, 0, $b.Length); $res.Close(); continue
+  }
+
   try {
     $url = $TARGET + $req.RawUrl
     $msg = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::new($req.HttpMethod), $url)

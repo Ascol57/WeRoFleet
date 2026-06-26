@@ -2,6 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- Content-Security-Policy for the single-file bundle. It MUST live in the
+       shell head (parsed at load) — a meta CSP inside the swapped-in template is
+       not enforced. Everything ships inlined, so no CDN and no 'unsafe-eval' are
+       needed; connect-src pins outbound data to Webex + a local proxy, which
+       blocks token exfiltration to attacker origins even under XSS. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://webexapis.com http://localhost:* http://127.0.0.1:*; object-src 'none'; base-uri 'self'; form-action 'none'">
   <title>WeRoFleet Console</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }

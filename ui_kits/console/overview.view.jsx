@@ -129,7 +129,15 @@
   // Download the current fleet as a CSV (BOM-prefixed so Excel reads UTF-8).
   function exportDevicesCsv(devices) {
     const cols = [['name', 'Name'], ['site', 'Site'], ['room', 'Room'], ['model', 'Model'], ['serial', 'Serial'], ['ip', 'IP'], ['mac', 'MAC'], ['fw', 'Firmware'], ['state', 'State'], ['issue', 'Issue']];
-    const esc = (v) => { const s = v == null ? '' : String(v); return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    // Quote per RFC 4180, but first neutralize CSV formula injection: a value
+    // starting with = + - @ (or tab/CR) is evaluated by Excel/Sheets, so prefix
+    // it with a single quote to keep it inert text. Device names/issues/tags can
+    // come from Webex and are not trusted.
+    const esc = (v) => {
+      let s = v == null ? '' : String(v);
+      if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+      return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    };
     const lines = [cols.map(([, label]) => label).join(',')];
     devices.forEach((d) => lines.push(cols.map(([k]) => esc(d[k])).join(',')));
     const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });

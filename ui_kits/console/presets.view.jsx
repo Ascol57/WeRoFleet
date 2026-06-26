@@ -251,6 +251,27 @@
               </div>
               <div className="wrf-cfg-removalnote">{I('info')}<span><b>{t('Auto')}</b>{t(" leaves the device's current setting untouched. On / Off push the value via deviceConfigurations.")}</span></div>
             </div>
+
+            <div className="wrf-cfg-block">
+              <div className="wrf-cfg-head">
+                <span className="wrf-cfg-title">{t('Wallpaper bundle')}</span>
+                <div className="wrf-seg">
+                  <Tabs variant="pill" value={p.wallpaperBundleMode || 'auto'} onChange={(v) => set({ wallpaperBundleMode: v })}
+                    tabs={[{ value: 'auto', label: t('Auto') }, { value: 'first', label: t('First') }, { value: 'last', label: t('Last') }, { value: 'custom', label: t('Custom') }]} />
+                </div>
+              </div>
+              {p.wallpaperBundleMode === 'custom' && (
+                <Input size="sm" type="number" min={PR.WB_MIN} max={PR.WB_MAX} leadingIcon={I('image')}
+                  value={p.wallpaperBundleIndex}
+                  onChange={(e) => set({ wallpaperBundleIndex: e.target.value === '' ? '' : PR.wbNum(e.target.value) })}
+                  placeholder={t('Position 1–256')} />
+              )}
+              <div className="wrf-cfg-removalnote">{I('info')}<span>
+                {(p.wallpaperBundleMode || 'auto') === 'auto'
+                  ? <><b>{t('Auto')}</b>{t(" leaves the device's current wallpaper bundle untouched.")}</>
+                  : <>{t('On apply, reads ')}<b>WallpaperBundle.List</b>{t(' then activates the ')}<b>{PR.wbLabel(p)}</b>{t(' bundle via ')}<b>WallpaperBundle.Set</b>{t('.')}</>}
+              </span></div>
+            </div>
           </div>
 
           <div className="wrf-modal-foot">

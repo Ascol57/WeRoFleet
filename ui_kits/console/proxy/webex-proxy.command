@@ -17,6 +17,13 @@ class Proxy < WEBrick::HTTPServlet::AbstractServlet
     res['Access-Control-Expose-Headers'] = 'Retry-After'
     return (res.status = 204) if req.request_method == 'OPTIONS'
 
+    # Only relay the Webex API surface (/v1/...) — not a general relay to webexapis.com.
+    unless req.unparsed_uri == '/v1' || req.unparsed_uri.start_with?('/v1/', '/v1?')
+      res.status = 403
+      res.body = %({"message":"proxy: only /v1 paths are forwarded"})
+      return
+    end
+
     uri  = URI(TARGET + req.unparsed_uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true

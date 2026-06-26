@@ -235,6 +235,35 @@
 
   function reboot(deviceId) { return xCommand(deviceId, 'SystemUnit.Boot', { Action: 'Restart' }); }
 
+  // ---- wallpaper bundles ----
+  // Normalize a WallpaperBundle.List result into [{ name, setupTypes }], in order.
+  // Cloud xAPI returns { result: { WallpaperBundle: [ { Name, SetupType, ... }, ... ] } };
+  // be lenient about casing and single-vs-array shapes. The bundle is keyed by its
+  // Name — that is what WallpaperBundle.Set expects.
+  function parseWallpaperBundles(r) {
+    const result = (r && r.result) || r || {};
+    let list = result.WallpaperBundle || result.WallpaperBundles || [];
+    if (!Array.isArray(list)) list = list ? [list] : [];
+    return list
+      .map((b) => {
+        let st = b.SetupType != null ? b.SetupType : (b.setupType != null ? b.setupType : []);
+        if (!Array.isArray(st)) st = st ? [st] : [];
+        return { name: b.Name || b.name || '', setupTypes: st };
+      })
+      .filter((b) => b.name !== '');
+  }
+
+  // List the wallpaper bundles available on a device, in device order.
+  async function listWallpaperBundles(deviceId) {
+    const r = await xCommand(deviceId, 'UserInterface.WallpaperBundle.List', {});
+    return parseWallpaperBundles(r);
+  }
+
+  // Activate a wallpaper bundle by its Name (from listWallpaperBundles).
+  function setWallpaperBundle(deviceId, name) {
+    return xCommand(deviceId, 'UserInterface.WallpaperBundle.Set', { Name: name });
+  }
+
   // ---- branding & configuration (deployment) ----
   // Upload a branding image. type e.g. 'HalfwakeBackground' | 'Background'. base64 = raw base64 (no data: prefix).
   function uploadBranding(deviceId, type, base64) {
@@ -327,6 +356,7 @@
     connect, me, orgInfo, listDevices, getDevice, listDevicesByWorkspace, listWorkspaces, mapDevice, building,
     isEligible, eligible,
     xStatus, xCommand, reboot, deviceDetail, liveStatus,
+    listWallpaperBundles, setWallpaperBundle,
     uploadBranding, deleteBranding, patchConfig, setCustomMessage, setCallFeature, setConfigValue, getConfig, CALL_FEATURE_KEYS,
   };
 })();
