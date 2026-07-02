@@ -58,7 +58,25 @@
       const base = { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' };
       return Object.assign(base, (currentCfg && currentCfg.call) || {});
     });
+    // Wallpaper bundle: pick one of the device's own default wallpapers by name.
+    const [wbMode, setWbMode] = useState('auto');     // 'auto' | 'name'
+    const [wbName, setWbName] = useState('');
+    const [wbList, setWbList] = useState(null);        // null = not loaded yet
+    const [wbBusy, setWbBusy] = useState(false);
+    const [wbErr, setWbErr] = useState('');
     const [run, setRun] = useState(null); // { log, done, ok, err }
+
+    async function loadBundles() {
+      setWbBusy(true); setWbErr('');
+      try {
+        const list = await WX.listWallpaperBundles(device.id);
+        setWbList(list);
+        if (list.length && !list.some((b) => b.name === wbName)) setWbName(list[0].name);
+      } catch (e) {
+        setWbList([]);
+        setWbErr((e && e.message) || t('Could not list the device’s wallpapers'));
+      } finally { setWbBusy(false); }
+    }
 
     function pickFile(e, setter, setMode) {
       const f = e.target.files && e.target.files[0];
@@ -84,6 +102,8 @@
       if (p.customMessage != null) setMsg(p.customMessage);
       setUseCall(p.useCall !== false && !!p.call);
       if (p.call) setCall(Object.assign({ JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' }, p.call));
+      if (p.wallpaperBundleMode === 'name' && p.wallpaperBundleName) { setWbMode('name'); setWbName(p.wallpaperBundleName); setWbList(null); setWbErr(''); }
+      else { setWbMode('auto'); }
       notify(t('Loaded “{name}” — review and apply', { name: p.name }), 'neutral');
     }
 
@@ -91,6 +111,7 @@
       const a = [];
       if (imgMode === 'set' && img) a.push(t('Halfwake')); else if (imgMode === 'remove') a.push(t('Clear Halfwake'));
       if (bgMode === 'set' && bg) a.push(t('Background')); else if (bgMode === 'remove') a.push(t('Clear Background'));
+      if (wbMode === 'name' && wbName) a.push(t('Wallpaper') + ' · ' + wbName);
       if (useMsg) a.push(t('Message'));
       if (useCall) a.push(t('Call buttons'));
       return a;
@@ -104,6 +125,8 @@
       const preset = {
         image: img, imageMode: imgMode,
         bgImage: bg, bgMode: bgMode,
+        wallpaperBundleMode: (wbMode === 'name' && wbName) ? 'name' : 'auto',
+        wallpaperBundleName: wbName,
         customMessage: msg, useMessage: useMsg,
         call: call, useCall: useCall,
       };
@@ -155,6 +178,16 @@
               <div className="wrf-modal-foot">
                 <span className="wrf-run-summary">{t('{ok} ok', { ok: run.ok })}{run.err ? t(' · {err} failed', { err: run.err }) : ''}</span>
                 <div style={{ flex: 1 }} />
+                {run.done && window.WRF_REPORT && window.WRF_REPORT.available() && (
+                  <Button variant="secondary" leadingIcon={I('file-text')} onClick={() => {
+                    try {
+                      window.WRF_REPORT.applyRunPdf({
+                        preset: { name: device.name }, title: t('Branding report'),
+                        live: live, log: run.log, ok: run.ok, err: run.err, total: 1,
+                      });
+                    } catch (e) { notify((e && e.message) || t('Could not generate the PDF'), 'critical'); }
+                  }}>{t('Download PDF')}</Button>
+                )}
                 <Button variant={run.done ? 'primary' : 'ghost'} disabled={!run.done} onClick={onClose}>{run.done ? t('Done') : t('Applying…')}</Button>
               </div>
             </>
@@ -170,6 +203,38 @@
                 <ImageControl label={t('Background')} brandType="Background"
                   hint={t('In-call wallpaper · auto-resized to max 3840×2160')}
                   value={bg} mode={bgMode} onMode={setBgMode} onFile={(e) => pickFile(e, setBg, setBgMode)} />
+
+                <div className="wrf-cfg-block">
+                  <div className="wrf-cfg-head">
+                    <span className="wrf-cfg-title">{t('Wallpaper bundle')}</span>
+                    <div className="wrf-seg">
+                      <Tabs variant="pill" value={wbMode}
+                        onChange={(v) => { setWbMode(v); if (v === 'name' && wbList === null && !wbBusy) loadBundles(); }}
+                        tabs={[{ value: 'auto', label: t('Auto') }, { value: 'name', label: t('Choose…') }]} />
+                    </div>
+                  </div>
+                  {wbMode === 'name' ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {wbBusy && <div className="wrf-cfg-removalnote">{I('loader-2', { className: 'wrf-spin' })}<span>{t('Loading the device’s wallpapers…')}</span></div>}
+                      {!wbBusy && wbErr && <div className="wrf-cfg-removalnote" data-tone="warn">{I('alert-triangle')}<span>{wbErr}</span></div>}
+                      {!wbBusy && !wbErr && wbList && wbList.length > 0 && (
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                          <div style={{ flex: 1 }}>
+                            <Select size="sm" value={wbName} onChange={(e) => setWbName(e.target.value)}
+                              options={wbList.map((b) => ({ value: b.name, label: b.name }))} />
+                          </div>
+                          <label className="wrf-filebtn" onClick={loadBundles}>{I('refresh-cw')}<span>{t('Reload')}</span></label>
+                        </div>
+                      )}
+                      {!wbBusy && !wbErr && wbList && wbList.length === 0 && (
+                        <div className="wrf-cfg-removalnote">{I('minus-circle')}<span>{t('No wallpaper bundles on this device')}</span></div>
+                      )}
+                      <div className="wrf-cfg-removalnote">{I('info')}<span>{t('Activates one of the device’s default wallpapers via ')}<b>WallpaperBundle.Set</b>{t('.')}</span></div>
+                    </div>
+                  ) : (
+                    <div className="wrf-cfg-removalnote">{I('minus-circle')}<span>{t('Left unchanged.')}</span></div>
+                  )}
+                </div>
 
                 <div className="wrf-cfg-block">
                   <div className="wrf-cfg-head"><Switch checked={useMsg} onChange={(e) => setUseMsg(e.target.checked)} label={t('Custom message')} /></div>

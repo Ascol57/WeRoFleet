@@ -20,13 +20,13 @@ against a live Webex organization.
 
 - **Overview** — fleet health metrics, operational-state bar, firmware coverage, "needs attention" list.
 - **Devices** — filterable/selectable table + a device-detail drawer (identity, health, live xAPI status, peripherals, history) with reboot.
-- **Workspaces** — select rooms and apply a configuration **preset** in one run.
-- **Config presets** — author reusable branding + call-button bundles; import/export as JSON.
+- **Workspaces** — select rooms and apply a configuration **preset** in one run, then **export a PDF report** (one line per room: `OK`, or the errors that occurred).
+- **Config presets** — author reusable branding + call-button bundles, plus **default-wallpaper** selection (activate a built-in wallpaper bundle by name/first/last/position); import/export as JSON.
 - **Settings** — language, Webex API rate limit, polling cadence, connection.
 - **Live Webex integration** — connect with a personal/integration bearer token; demo mode otherwise.
 - **Multilingual (EN · FR · DE · LB)** — English, French, German, and Luxembourgish; auto-detects the browser language, switch any time from the top bar or Settings, choice is remembered.
 - **Light & dark themes**, first-class peers.
-- **Offline single-file build** — everything (React, icons, fonts, app) inlined; no network needed except the Webex API itself.
+- **Offline single-file build** — everything (React, icons, fonts, jsPDF, app) inlined; no network needed except the Webex API itself.
 
 ---
 
@@ -54,7 +54,7 @@ node tools/build-bundle.mjs
 ```
 
 The bundler:
-1. downloads React, ReactDOM, and Lucide and **inlines** them (cached in `tools/.cache/`),
+1. downloads React, ReactDOM, Lucide, and jsPDF and **inlines** them (cached in `tools/.cache/`),
 2. **pre-compiles all JSX with Babel in Node** — Babel is *not* shipped,
 3. inlines all CSS, scripts, and the IBM Plex web fonts (base64 woff2),
 4. emits one HTML file with **no remote dependencies** (the live Webex API aside).
@@ -130,5 +130,5 @@ license** — see **[LICENSE](LICENSE)**.
 
 2026 Constant Rusche.
 
-Bundled third-party components keep their own licenses: React/ReactDOM and Babel
-(MIT), Lucide (ISC), IBM Plex fonts (SIL OFL 1.1).
+Bundled third-party components keep their own licenses: React/ReactDOM, Babel and
+jsPDF (MIT), Lucide (ISC), IBM Plex fonts (SIL OFL 1.1).

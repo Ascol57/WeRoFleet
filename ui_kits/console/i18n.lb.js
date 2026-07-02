@@ -385,5 +385,41 @@ window.__WRF_LB_DICT = {
   'Not connected': 'Net verbonnen',
   "You're viewing demo data. Connect a Webex org to manage real devices.": 'Dir kuckt Demo-Daten un. Verbannt eng Webex-Organisatioun, fir richteg Apparater ze verwalten.',
   'Disconnect from Webex and clear the stored token?': 'Vu Webex trennen an de gespäicherten Token läschen?',
-  'Disconnected · back to demo data': 'Verbindung getrennt · zréck zu den Demo-Daten'
+  'Disconnected · back to demo data': 'Verbindung getrennt · zréck zu den Demo-Daten',
+
+  // ---- wallpaper bundle picker ----
+  'By name': 'No Numm',
+  'Exact bundle name, e.g. Mountains': 'Exakte Bundle-Numm, z. B. Mountains',
+  '(unnamed)': '(ouni Numm)',
+  'No wallpaper bundle name set on this preset': 'Keng Bundle-Numm op dësem Preset festgeluecht',
+  'Bundle “{name}” not found on this device': 'Bundle „{name}“ net fonnt op dësem Apparat',
+  'Wallpaper': 'Hannergrondbild',
+  'Choose…': 'Auswielen…',
+  'Loading the device’s wallpapers…': 'D’Hannergrondbiller vum Apparat gi gelueden…',
+  'Could not list the device’s wallpapers': 'D’Hannergrondbiller vum Apparat konnten net opgelëscht ginn',
+  'Reload': 'Nei lueden',
+  'Activates one of the device’s default wallpapers via ': 'Aktivéiert ee vun den Standard-Hannergrondbiller vum Apparat iwwer ',
+
+  // ---- deployment PDF report ----
+  'Download PDF': 'PDF eroflueden',
+  'Could not generate the PDF': 'PDF konnt net generéiert ginn',
+  'PDF engine unavailable': 'PDF-Motor net verfügbar',
+  'Deployment report': 'Deploymentsbericht',
+  'Branding report': 'Branding-Bericht',
+  '(preset)': '(Preset)',
+  'Rooms': 'Raim',
+  'Actions OK': 'Aktiounen OK',
+  'Failed': 'Feelgeschloen',
+  'Rooms with failures': 'Raim mat Feeler',
+  'Failures': 'Feeler',
+  'Error': 'Feeler',
+  '{rooms} room(s) · {ok} OK · {err} with errors': '{rooms} Raum/Raim · {ok} OK · {err} mat Feeler',
+  'All OK': 'Alles OK',
+  '{rooms} room(s) · {ok} action(s) applied · no failures.': '{rooms} Raum/Raim · {ok} Aktioun(en) applizéiert · keng Feeler.',
+  '{n} action(s) failed across {r} room(s). Full detail below.': '{n} Aktioun(en) feelgeschloen an {r} Raum/Raim. Vollstännegt Detail hei ënnen.',
+  'No failures — every action applied successfully.': 'Keng Feeler — all Aktioun ass erfollegräich applizéiert ginn.',
+  'Per-room detail': 'Detail pro Raum',
+  'No devices were processed.': 'Keng Apparater veraarbecht.',
+  '{err} failed': '{err} feelgeschloen',
+  'Page {n} / {total}': 'Säit {n} / {total}'
 };

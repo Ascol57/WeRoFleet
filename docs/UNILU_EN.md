@@ -145,17 +145,26 @@ To apply a **configuration to many rooms at once**:
 Only **eligible devices** (target models) receive the config. A progress window
 shows the result (successes / failures) live.
 
+When the run finishes, click **Download PDF** to save a **deployment report** —
+one line per room (`Room: OK`, or `Room — Error:` followed by the exact reasons),
+so failures are easy to spot, keep and share.
+
 ### Config presets (reusable configurations)
 Build reusable **configuration bundles**:
 - **branding** (*Halfwake* logo, in-call wallpaper — auto-resized),
   **custom message**, **call buttons**;
+- **default wallpaper** — activate one of the device's built-in **wallpaper
+  bundles**, chosen **by name** (or first / last / a position number);
 - **Import / Export as JSON** (per preset or all at once) to share or archive
   your configs;
 - **duplicate / edit / delete**.
 
 Each preset maps to the same Webex routes (`Branding.Upload`, `CustomMessage`,
-`UserInterface.Features.Call.*`). You **build them here**, then **apply them from
-Workspaces**.
+`UserInterface.Features.Call.*`, `UserInterface.WallpaperBundle.Set`). You
+**build them here**, then **apply them from Workspaces**.
+
+> The per-device **Branding** editor (device drawer) can also **list the
+> device's own wallpapers** and let you pick one directly.
 
 ### Settings
 - **Interface language**: **EN · FR · DE · LB** (remembered per browser,

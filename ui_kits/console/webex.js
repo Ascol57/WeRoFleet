@@ -253,10 +253,30 @@
       .filter((b) => b.name !== '');
   }
 
+  // The stock wallpaper bundles that ship on RoomOS devices. Used as the demo
+  // fleet's list (no live device to query) so the picker is fully exercisable
+  // offline, and as a labelled fallback everywhere a real list is unavailable.
+  const DEMO_WALLPAPER_BUNDLES = [
+    { name: 'Abstract', setupTypes: ['dual', 'triple'] },
+    { name: 'Aurora', setupTypes: ['dual'] },
+    { name: 'Blue Gradient', setupTypes: ['dual', 'triple'] },
+    { name: 'Concrete', setupTypes: ['dual'] },
+    { name: 'Forest', setupTypes: ['dual', 'triple'] },
+    { name: 'Mountains', setupTypes: ['dual'] },
+    { name: 'Ocean', setupTypes: ['dual', 'triple'] },
+    { name: 'Sand Dunes', setupTypes: ['dual'] },
+  ];
+  function demoWallpaperBundles() { return DEMO_WALLPAPER_BUNDLES.map((b) => ({ name: b.name, setupTypes: b.setupTypes.slice() })); }
+
   // List the wallpaper bundles available on a device, in device order.
+  // Without credentials (demo mode) there is no device to query, so we return
+  // the stock RoomOS bundle set — the picker stays usable offline.
   async function listWallpaperBundles(deviceId) {
+    if (!hasCreds()) return demoWallpaperBundles();
     const r = await xCommand(deviceId, 'UserInterface.WallpaperBundle.List', {});
-    return parseWallpaperBundles(r);
+    const list = parseWallpaperBundles(r);
+    if (!list.length) throw err('empty', t('No wallpaper bundles on this device'));
+    return list;
   }
 
   // Activate a wallpaper bundle by its Name (from listWallpaperBundles).
@@ -356,7 +376,7 @@
     connect, me, orgInfo, listDevices, getDevice, listDevicesByWorkspace, listWorkspaces, mapDevice, building,
     isEligible, eligible,
     xStatus, xCommand, reboot, deviceDetail, liveStatus,
-    listWallpaperBundles, setWallpaperBundle,
+    listWallpaperBundles, setWallpaperBundle, demoWallpaperBundles,
     uploadBranding, deleteBranding, patchConfig, setCustomMessage, setCallFeature, setConfigValue, getConfig, CALL_FEATURE_KEYS,
   };
 })();

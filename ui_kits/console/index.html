@@ -19,6 +19,9 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js" integrity="sha384-xxUH8dZ+9qK6wOz3bNViyhHSIuVBQT5jsFlZAowZsRzRDsEqGjLGMJ/Wg10MPC3H" crossorigin="anonymous"></script>
+<!-- jsPDF (UMD → window.jspdf.jsPDF). Used to export a PDF report at the end of an apply.
+     Downloaded + inlined offline by tools/build-bundle.mjs, same as React/Lucide. -->
+<script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
 <!-- i18n must load before any console script that reads window.WRF_I18N (data.js, webex.js, …).
      defer keeps document order while letting the parser run unblocked. -->
 <script defer src="i18n.fr.js"></script>
@@ -136,6 +139,8 @@
   <script defer src="webex.js"></script>
   <script defer src="poller.js"></script>
   <script defer src="presets.js"></script>
+  <script defer src="report.fonts.js"></script>
+  <script defer src="report.js"></script>
   <script type="text/babel" src="shell.runtime.js"></script>
   <script type="text/babel" src="overview.view.jsx"></script>
   <script type="text/babel" src="devices.view.jsx"></script>

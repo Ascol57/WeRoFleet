@@ -150,17 +150,30 @@ Fir eng **Konfiguratioun op vill Raim op eemol** unzewenden:
 Nëmmen **passend Apparater** (Zilmodeller) kréien d'Konfiguratioun. Eng
 Fortschrëttsfënster weist d'Resultat (Succès / Echecen) live.
 
+Um Enn vum Laf klickt op **Download PDF** fir e **Deploymentsbericht** ze
+späicheren — eng Zeil pro Raum (`Raum: OK`, oder `Raum — Feeler:` gefollegt vun
+de genaue Grënn), sou datt Feeler einfach z'erkennen, ze behalen an ze deele
+sinn.
+
 ### Config presets (erëmverwennbar Konfiguratiounen)
 Erstellt erëmverwennbar **Konfiguratiounspäck**:
 - **Branding** (*Halfwake*-Logo, Hannergrond am Uruff — automatesch
   ugepasst), **eege Message**, **Uruff-Knäppercher**;
+- **Standard-Hannergrondbild** — ee vun den am Apparat integréierten
+  **Hannergrondbild-Päck** aktivéieren, ausgewielt **no Numm** (oder éischten /
+  leschten / Positiounsnummer);
 - **Import / Export als JSON** (pro Preset oder all op eemol) fir är
   Konfiguratiounen ze deelen oder z'archivéieren;
 - **duplizéieren / änneren / läschen**.
 
 All Preset entsprécht deene selwechte Webex-Routen (`Branding.Upload`,
-`CustomMessage`, `UserInterface.Features.Call.*`). Dir **baut se hei** a
-**wennt se dann aus Workspaces un**.
+`CustomMessage`, `UserInterface.Features.Call.*`,
+`UserInterface.WallpaperBundle.Set`). Dir **baut se hei** a **wennt se dann aus
+Workspaces un**.
+
+> Den apparateweisen **Branding**-Editeur (Apparat-Tirang) kann och
+> **d'eege Hannergrondbiller vum Apparat oplëschten** an iech een direkt
+> auswiele loossen.
 
 ### Settings (Astellungen)
 - **Sprooch** vun der Interface: **EN · FR · DE · LB** (pro Browser gespäichert,

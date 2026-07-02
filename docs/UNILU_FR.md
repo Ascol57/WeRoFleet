@@ -147,17 +147,29 @@ Pour appliquer une **configuration à plusieurs salles d'un coup** :
 Seuls les **appareils éligibles** (modèles ciblés) reçoivent la config. Une
 fenêtre de progression affiche le résultat (réussites / échecs) en direct.
 
+À la fin de l'exécution, cliquez sur **Download PDF** pour enregistrer un
+**rapport de déploiement** — une ligne par salle (`Salle : OK`, ou
+`Salle — Erreur :` suivi des raisons exactes) : les échecs sont ainsi faciles à
+repérer, conserver et partager.
+
 ### Config presets (Configurations réutilisables)
 Créez des **bundles de configuration** réutilisables :
 - **branding** (logo *Halfwake*, fond d'écran d'appel — auto-redimensionnés),
   **message personnalisé**, **boutons d'appel** ;
+- **fond d'écran par défaut** — activer l'un des **packs de fonds d'écran**
+  intégrés à l'appareil, choisi **par nom** (ou premier / dernier / position) ;
 - **Import / Export en JSON** (par preset ou tous d'un coup) pour partager ou
   archiver vos configs ;
 - **dupliquer / éditer / supprimer**.
 
 Chaque preset correspond aux mêmes routes Webex (`Branding.Upload`,
-`CustomMessage`, `UserInterface.Features.Call.*`). On les **construit ici**,
-puis on les **applique depuis Workspaces**.
+`CustomMessage`, `UserInterface.Features.Call.*`,
+`UserInterface.WallpaperBundle.Set`). On les **construit ici**, puis on les
+**applique depuis Workspaces**.
+
+> L'éditeur **Branding** par appareil (tiroir de l'appareil) peut aussi
+> **lister les fonds d'écran propres à l'appareil** et vous laisser en choisir un
+> directement.
 
 ### Settings (Réglages)
 - **Langue** de l'interface : **EN · FR · DE · LB** (mémorisée par navigateur,

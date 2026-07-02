@@ -21,10 +21,28 @@
   ];
   const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
+  // Demo mode only: fail a fraction of simulated actions with a plausible reason
+  // so a demo run (and the exported PDF) actually exercises the error path — you
+  // can see what a partial deployment looks like without a live org. Live mode
+  // never calls this; real errors come from the Webex API.
+  const DEMO_ERRORS = [
+    'Webex 429 — rate limited, retry a bit later',
+    'Webex 403 — the token is missing a required scope',
+    'Device offline — could not reach the xAPI',
+    'xAPI command timed out after 10s',
+    'Webex 500 — internal error, please retry',
+  ];
+  function demoFault(rate) {
+    if (Math.random() >= (rate == null ? 0.14 : rate)) return null;
+    return DEMO_ERRORS[Math.floor(Math.random() * DEMO_ERRORS.length)];
+  }
+
   // Wallpaper bundle selection. 'auto' = leave unchanged; 'first'/'last' resolve
   // against the device's WallpaperBundle.List; 'custom' uses a human 1-based
-  // position (1..256) that maps to the 0-based list index at apply time.
-  const WB_MODES = ['auto', 'first', 'last', 'custom'];
+  // position (1..256) that maps to the 0-based list index at apply time;
+  // 'name' targets a specific bundle by its exact Name (case-insensitive),
+  // which is the reliable way to pick one of the device's default wallpapers.
+  const WB_MODES = ['auto', 'first', 'last', 'custom', 'name'];
   const WB_MIN = 1, WB_MAX = 256;
   // Accent is injected into inline styles (swatches, color-mix). Only allow a
   // hex color so an imported preset can't smuggle in another CSS value/function.
@@ -46,6 +64,7 @@
   function wbLabel(p) {
     if (p.wallpaperBundleMode === 'first') return t('First');
     if (p.wallpaperBundleMode === 'last') return t('Last');
+    if (p.wallpaperBundleMode === 'name') return '“' + (String(p.wallpaperBundleName || '').trim() || t('(unnamed)')) + '”';
     return '#' + wbNum(p.wallpaperBundleIndex);
   }
 
@@ -76,6 +95,7 @@
     // Wallpaper bundle defaults to 'auto' (older presets have no such field).
     p.wallpaperBundleMode = WB_MODES.includes(p.wallpaperBundleMode) ? p.wallpaperBundleMode : 'auto';
     p.wallpaperBundleIndex = wbNum(p.wallpaperBundleIndex);
+    p.wallpaperBundleName = typeof p.wallpaperBundleName === 'string' ? p.wallpaperBundleName.slice(0, 200) : '';
     p.accent = safeAccent(p.accent);
     return p;
   }
@@ -142,7 +162,7 @@
       image: null, imageMode: 'auto',
       bgImage: null, bgMode: 'auto',
       wallpaperOverlayMode: 'auto', dashboardMode: 'auto',
-      wallpaperBundleMode: 'auto', wallpaperBundleIndex: 1,
+      wallpaperBundleMode: 'auto', wallpaperBundleIndex: 1, wallpaperBundleName: '',
       customMessage: t('If help needed, please call 9911.'), useMessage: true,
       call: { JoinWebex: 'Auto', JoinMicrosoftTeamsDirectGuestJoin: 'Auto', JoinGoogleMeet: 'Hidden', JoinZoom: 'Hidden' }, useCall: true,
     };
@@ -193,6 +213,7 @@
       dashboardMode: ['on', 'off', 'auto'].includes(raw.dashboardMode) ? raw.dashboardMode : 'auto',
       wallpaperBundleMode: WB_MODES.includes(raw.wallpaperBundleMode) ? raw.wallpaperBundleMode : 'auto',
       wallpaperBundleIndex: wbNum(raw.wallpaperBundleIndex),
+      wallpaperBundleName: typeof raw.wallpaperBundleName === 'string' ? raw.wallpaperBundleName.slice(0, 200) : '',
       customMessage: raw.customMessage != null ? String(raw.customMessage) : '',
       useMessage: raw.useMessage !== false,
       call: normalizeCall(raw.call), useCall: raw.useCall !== false,
@@ -227,13 +248,19 @@
       async function applyImage(dev, mode, type, image) {
         if (mode === 'set' && image && image.base64) {
           const id = start(t('Upload {type}', { type: type }));
-          try { if (live) await WX.uploadBranding(dev.id, type, image.base64); else await delay(240); fin(id, 'ok'); }
-          catch (e) { fin(id, 'err', e.message); }
+          try {
+            if (live) await WX.uploadBranding(dev.id, type, image.base64);
+            else { await delay(240); const f = demoFault(); if (f) throw new Error(f); }
+            fin(id, 'ok');
+          } catch (e) { fin(id, 'err', e.message); }
           await delay(200);
         } else if (mode === 'remove') {
           const id = start(t('Remove {type}', { type: type }));
-          try { if (live) await WX.deleteBranding(dev.id, type); else await delay(160); fin(id, 'ok'); }
-          catch (e) { fin(id, 'err', e.message); }
+          try {
+            if (live) await WX.deleteBranding(dev.id, type);
+            else { await delay(160); const f = demoFault(); if (f) throw new Error(f); }
+            fin(id, 'ok');
+          } catch (e) { fin(id, 'err', e.message); }
           await delay(200);
         }
         // 'auto' → leave unchanged
@@ -243,26 +270,41 @@
         try {
           if (live) {
             const bundles = await WX.listWallpaperBundles(d.id);
-            const idx = wbIndex(p, bundles.length);
-            if (idx < 0) throw new Error(t('No wallpaper bundles on this device'));
-            const b = bundles[idx];
+            if (!bundles.length) throw new Error(t('No wallpaper bundles on this device'));
+            let b;
+            if (p.wallpaperBundleMode === 'name') {
+              const want = String(p.wallpaperBundleName || '').trim().toLowerCase();
+              if (!want) throw new Error(t('No wallpaper bundle name set on this preset'));
+              b = bundles.find((x) => x.name.toLowerCase() === want);
+              if (!b) throw new Error(t('Bundle “{name}” not found on this device', { name: p.wallpaperBundleName }));
+            } else {
+              const idx = wbIndex(p, bundles.length);
+              if (idx < 0) throw new Error(t('No wallpaper bundles on this device'));
+              b = bundles[idx];
+            }
             await WX.setWallpaperBundle(d.id, b.name);
             fin(id, 'ok', b.name);
-          } else { await delay(220); fin(id, 'ok'); }
+          } else { await delay(220); const f = demoFault(); if (f) throw new Error(f); fin(id, 'ok', p.wallpaperBundleMode === 'name' ? p.wallpaperBundleName : undefined); }
         } catch (e) { fin(id, 'err', e.message); }
         await delay(200);
       }
       if (p.useMessage && p.customMessage != null) {
         const id = start(t('Set CustomMessage'));
-        try { if (live) await WX.setCustomMessage(d.id, p.customMessage); else await delay(180); fin(id, 'ok'); }
-        catch (e) { fin(id, 'err', e.message); }
+        try {
+          if (live) await WX.setCustomMessage(d.id, p.customMessage);
+          else { await delay(180); const f = demoFault(); if (f) throw new Error(f); }
+          fin(id, 'ok');
+        } catch (e) { fin(id, 'err', e.message); }
         await delay(200);
       }
       if (p.useCall && p.call) {
         for (const [key, label] of CALL_KEYS) {
           const id = start(t('Call · {platform}', { platform: label }) + ' \u2192 ' + t(p.call[key]));
-          try { if (live) await WX.setCallFeature(d.id, key, p.call[key]); else await delay(110); fin(id, 'ok'); }
-          catch (e) { fin(id, 'err', e.message); }
+          try {
+            if (live) await WX.setCallFeature(d.id, key, p.call[key]);
+            else { await delay(110); const f = demoFault(); if (f) throw new Error(f); }
+            fin(id, 'ok');
+          } catch (e) { fin(id, 'err', e.message); }
           await delay(140);
         }
       }
@@ -271,8 +313,11 @@
         if (mode !== 'on' && mode !== 'off') continue; // 'auto' → leave unchanged
         const value = mode === 'on' ? 'On' : 'Off';
         const id = start(t(tog.label) + ' \u2192 ' + t(value));
-        try { if (live) await WX.setConfigValue(d.id, tog.path, value); else await delay(150); fin(id, 'ok'); }
-        catch (e) { fin(id, 'err', e.message); }
+        try {
+          if (live) await WX.setConfigValue(d.id, tog.path, value);
+          else { await delay(150); const f = demoFault(); if (f) throw new Error(f); }
+          fin(id, 'ok');
+        } catch (e) { fin(id, 'err', e.message); }
         await delay(160);
       }
     }

@@ -385,5 +385,41 @@ window.__WRF_DE_DICT = {
   'Not connected': 'Nicht verbunden',
   "You're viewing demo data. Connect a Webex org to manage real devices.": 'Sie sehen Demo-Daten. Verbinden Sie eine Webex-Organisation, um echte Geräte zu verwalten.',
   'Disconnect from Webex and clear the stored token?': 'Von Webex trennen und das gespeicherte Token löschen?',
-  'Disconnected · back to demo data': 'Getrennt · zurück zu Demo-Daten'
+  'Disconnected · back to demo data': 'Getrennt · zurück zu Demo-Daten',
+
+  // ---- wallpaper bundle picker ----
+  'By name': 'Nach Name',
+  'Exact bundle name, e.g. Mountains': 'Exakter Bundle-Name, z. B. Mountains',
+  '(unnamed)': '(unbenannt)',
+  'No wallpaper bundle name set on this preset': 'Kein Bundle-Name in diesem Preset festgelegt',
+  'Bundle “{name}” not found on this device': 'Bundle „{name}“ auf diesem Gerät nicht gefunden',
+  'Wallpaper': 'Hintergrundbild',
+  'Choose…': 'Auswählen…',
+  'Loading the device’s wallpapers…': 'Hintergrundbilder des Geräts werden geladen…',
+  'Could not list the device’s wallpapers': 'Hintergrundbilder des Geräts konnten nicht aufgelistet werden',
+  'Reload': 'Neu laden',
+  'Activates one of the device’s default wallpapers via ': 'Aktiviert eines der Standard-Hintergrundbilder des Geräts über ',
+
+  // ---- deployment PDF report ----
+  'Download PDF': 'PDF herunterladen',
+  'Could not generate the PDF': 'PDF konnte nicht erstellt werden',
+  'PDF engine unavailable': 'PDF-Engine nicht verfügbar',
+  'Deployment report': 'Bereitstellungsbericht',
+  'Branding report': 'Branding-Bericht',
+  '(preset)': '(Preset)',
+  'Rooms': 'Räume',
+  'Actions OK': 'Aktionen OK',
+  'Failed': 'Fehlgeschlagen',
+  'Rooms with failures': 'Räume mit Fehlern',
+  'Failures': 'Fehler',
+  'Error': 'Fehler',
+  '{rooms} room(s) · {ok} OK · {err} with errors': '{rooms} Raum/Räume · {ok} OK · {err} mit Fehlern',
+  'All OK': 'Alles OK',
+  '{rooms} room(s) · {ok} action(s) applied · no failures.': '{rooms} Raum/Räume · {ok} Aktion(en) angewendet · keine Fehler.',
+  '{n} action(s) failed across {r} room(s). Full detail below.': '{n} Aktion(en) in {r} Raum/Räumen fehlgeschlagen. Vollständiges Detail unten.',
+  'No failures — every action applied successfully.': 'Keine Fehler — alle Aktionen erfolgreich angewendet.',
+  'Per-room detail': 'Detail pro Raum',
+  'No devices were processed.': 'Keine Geräte verarbeitet.',
+  '{err} failed': '{err} fehlgeschlagen',
+  'Page {n} / {total}': 'Seite {n} / {total}'
 };

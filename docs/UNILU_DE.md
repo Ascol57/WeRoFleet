@@ -151,17 +151,30 @@ Um eine **Konfiguration auf viele Räume gleichzeitig** anzuwenden:
 Nur **geeignete Geräte** (Zielmodelle) erhalten die Konfiguration. Ein
 Fortschrittsfenster zeigt das Ergebnis (Erfolge / Fehler) in Echtzeit.
 
+Nach Abschluss des Laufs klicken Sie auf **Download PDF**, um einen
+**Bereitstellungsbericht** zu speichern — eine Zeile pro Raum (`Raum: OK` oder
+`Raum — Fehler:` gefolgt von den genauen Gründen), damit Fehler leicht zu
+erkennen, aufzubewahren und zu teilen sind.
+
 ### Config presets (wiederverwendbare Konfigurationen)
 Erstellen Sie wiederverwendbare **Konfigurationspakete**:
 - **Branding** (*Halfwake*-Logo, Hintergrundbild im Anruf — automatisch
   skaliert), **eigene Nachricht**, **Anruf-Schaltflächen**;
+- **Standard-Hintergrundbild** — eines der im Gerät integrierten
+  **Hintergrundbild-Bundles** aktivieren, ausgewählt **nach Name** (oder erstes /
+  letztes / Positionsnummer);
 - **Import / Export als JSON** (pro Preset oder alle auf einmal) zum Teilen oder
   Archivieren Ihrer Konfigurationen;
 - **duplizieren / bearbeiten / löschen**.
 
 Jedes Preset entspricht denselben Webex-Routen (`Branding.Upload`,
-`CustomMessage`, `UserInterface.Features.Call.*`). Sie **erstellen sie hier** und
-**wenden sie dann aus Workspaces an**.
+`CustomMessage`, `UserInterface.Features.Call.*`,
+`UserInterface.WallpaperBundle.Set`). Sie **erstellen sie hier** und **wenden sie
+dann aus Workspaces an**.
+
+> Der geräteweise **Branding**-Editor (Geräte-Schublade) kann außerdem die
+> **eigenen Hintergrundbilder des Geräts auflisten** und Sie eines direkt
+> auswählen lassen.
 
 ### Settings (Einstellungen)
 - **Sprache** der Oberfläche: **EN · FR · DE · LB** (pro Browser gespeichert,

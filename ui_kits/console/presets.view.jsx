@@ -4,6 +4,7 @@
   const { Card, Button, Input, Switch, Badge, Tabs, IconButton, Banner } = window.HelmRoomKitFleetDS_91f16f;
   const { I } = window.WRF_SHELL;
   const PR = window.WRF_PRESETS;
+  const WX = window.WRF_WEBEX;
   const PageHead = window.WRF_PageHead;
   const { t } = window.WRF_I18N;
 
@@ -257,9 +258,20 @@
                 <span className="wrf-cfg-title">{t('Wallpaper bundle')}</span>
                 <div className="wrf-seg">
                   <Tabs variant="pill" value={p.wallpaperBundleMode || 'auto'} onChange={(v) => set({ wallpaperBundleMode: v })}
-                    tabs={[{ value: 'auto', label: t('Auto') }, { value: 'first', label: t('First') }, { value: 'last', label: t('Last') }, { value: 'custom', label: t('Custom') }]} />
+                    tabs={[{ value: 'auto', label: t('Auto') }, { value: 'name', label: t('By name') }, { value: 'first', label: t('First') }, { value: 'last', label: t('Last') }, { value: 'custom', label: t('Custom') }]} />
                 </div>
               </div>
+              {p.wallpaperBundleMode === 'name' && (
+                <>
+                  <Input size="sm" leadingIcon={I('image')} list="wrf-wb-names"
+                    value={p.wallpaperBundleName || ''}
+                    onChange={(e) => set({ wallpaperBundleName: e.target.value })}
+                    placeholder={t('Exact bundle name, e.g. Mountains')} />
+                  <datalist id="wrf-wb-names">
+                    {(WX.demoWallpaperBundles ? WX.demoWallpaperBundles() : []).map((b) => <option key={b.name} value={b.name} />)}
+                  </datalist>
+                </>
+              )}
               {p.wallpaperBundleMode === 'custom' && (
                 <Input size="sm" type="number" min={PR.WB_MIN} max={PR.WB_MAX} leadingIcon={I('image')}
                   value={p.wallpaperBundleIndex}

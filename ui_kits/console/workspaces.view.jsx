@@ -58,7 +58,7 @@
       if (!selDevices.length) { notify(t('No eligible devices (matching target models) in the selected workspaces'), 'warning'); return; }
       if (live && !window.confirm(t('Apply “{name}” to {d} eligible device(s) across {w} workspace(s)?', { name: preset.name, d: selDevices.length, w: selWs.length }))) return;
 
-      const runState = { preset, total: selDevices.length, log: [], done: false, ok: 0, err: 0 };
+      const runState = { preset, total: selDevices.length, log: [], done: false, ok: 0, err: 0, live };
       setRun({ ...runState });
       const onLog = (e) => {
         if (e.update) {
@@ -189,6 +189,12 @@
           <div className="wrf-modal-foot">
             <span className="wrf-run-summary">{t('{ok} ok', { ok: okN })}{errN ? t(' · {err} failed', { err: errN }) : ''}</span>
             <div style={{ flex: 1 }} />
+            {run.done && window.WRF_REPORT && window.WRF_REPORT.available() && (
+              <Button variant="secondary" leadingIcon={I('file-text')} onClick={() => {
+                try { window.WRF_REPORT.applyRunPdf(run); }
+                catch (e) { notify((e && e.message) || t('Could not generate the PDF'), 'critical'); }
+              }}>{t('Download PDF')}</Button>
+            )}
             <Button variant={run.done ? 'primary' : 'ghost'} disabled={!run.done} onClick={onClose}>{run.done ? t('Done') : t('Running…')}</Button>
           </div>
         </div>
